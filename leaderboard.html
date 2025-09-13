@@ -604,11 +604,26 @@
         const leaderboardGrid = document.getElementById('leaderboard-grid');
         const filterButtons = document.querySelectorAll('.filter-btn');
 
-        // Calculate total stars and sort
-        let rankedMembers = members.map(member => ({
+        // Calculate total stars, sort, and assign ranks with ties
+        const rankedMembers = members.map(member => ({
             ...member,
             totalStars: member.eventsJoined + member.workshopsJoined + member.eventsConducted + member.workshopsConducted
         })).sort((a, b) => b.totalStars - a.totalStars || a.name.localeCompare(b.name));
+
+        // Assign ranks with ties
+        let currentRank = 1;
+        let lastStars = null;
+        let tieGroupSize = 0;
+        rankedMembers.forEach((member, index) => {
+            if (member.totalStars !== lastStars) {
+                currentRank = index + 1;
+                lastStars = member.totalStars;
+                tieGroupSize = 1;
+            } else {
+                tieGroupSize++;
+            }
+            member.rank = currentRank;
+        });
 
         function renderLeaderboard(filter = 'all') {
             let filteredMembers = [...rankedMembers];
@@ -616,15 +631,15 @@
             if (filter === 'core') {
                 filteredMembers = filteredMembers.filter(member => member.isCore);
             } else if (filter === 'top10') {
-                filteredMembers = filteredMembers.slice(0, 10);
+                // For top10, we need to consider ties, so slice until we have at least 10, but respect rank <=10
+                filteredMembers = filteredMembers.filter(member => member.rank <= 10);
             }
             
             leaderboardGrid.innerHTML = '';
             
             filteredMembers.forEach((member, index) => {
-                const rank = rankedMembers.findIndex(m => m.id === member.id) + 1;
-                const cardClass = rank === 1 ? 'top1' : rank === 2 ? 'top2' : rank === 3 ? 'top3' : '';
-                const badge = rank === 1 ? '🥇' : rank === 2 ? '🥈' : rank === 3 ? '🥉' : '';
+                const cardClass = member.rank === 1 ? 'top1' : member.rank === 2 ? 'top2' : member.rank === 3 ? 'top3' : '';
+                const badge = member.rank === 1 ? '🥇' : member.rank === 2 ? '🥈' : member.rank === 3 ? '🥉' : '';
                 const cardHTML = `
                     <div class="leaderboard-card ${cardClass}" style="animation-delay: ${index * 50}ms">
                         ${badge ? `<div class="rank-badge">${badge}</div>` : ''}
@@ -636,7 +651,7 @@
                         
                         <div class="leaderboard-stats">
                             <div class="stat-item">
-                                <span class="stat-value">${rank}</span>
+                                <span class="stat-value">${member.rank}</span>
                                 <span class="stat-label">Rank</span>
                             </div>
                             <div class="stat-item">
