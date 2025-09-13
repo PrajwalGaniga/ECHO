@@ -1,0 +1,432 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>About - ECHO</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Fira+Code:wght@400;500&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://unpkg.com/aos@next/dist/aos.css" />
+
+    <style>
+        /* --- THEME & COLOR VARIABLES --- */
+        :root { /* Light Mode Defaults */
+            --background-color: #f4f4f9;
+            --surface-color: #ffffff;
+            --surface-secondary-color: #f8f9fa;
+            --text-color: #1c1c1e;
+            --text-muted-color: #6a6a6e;
+            --border-color: #e5e5e5;
+            --primary-color: #4361ee;
+            --secondary-color: #3a0ca3;
+            --hero-overlay-color: rgba(28, 28, 30, 0.7);
+            --card-shadow: 0 4px S15px rgba(0, 0, 0, 0.08);
+            --gradient-text: linear-gradient(90deg, var(--primary-color), var(--secondary-color));
+            --gradient-primary: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            --nav-background: rgba(255, 255, 255, 0.8);
+            --code-font: 'Fira Code', monospace;
+        }
+
+        [data-theme="dark"] {
+            --background-color: #121212;
+            --surface-color: #1e1e1e;
+            --surface-secondary-color: #2a2a2a;
+            --text-color: #e0e0e0;
+            --text-muted-color: #a0a0a0;
+            --border-color: #333333;
+            --primary-color: #6a11cb;
+            --secondary-color: #2575fc;
+            --hero-overlay-color: rgba(18, 18, 18, 0.8);
+            --card-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
+            --nav-background: rgba(18, 18, 18, 0.8);
+        }
+
+        /* --- BASE STYLES --- */
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        html { scroll-behavior: smooth; }
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: var(--background-color);
+            color: var(--text-color);
+            line-height: 1.6;
+            transition: background-color 0.3s, color 0.3s;
+        }
+        .container { max-width: 1200px; margin: 0 auto; padding: 0 20px; }
+        main { padding-top: 73px; }
+
+        /* --- NAVIGATION BAR --- */
+        .navbar {
+            background: var(--nav-background); backdrop-filter: blur(10px);
+            padding: 15px 0; position: fixed; width: 100%; top: 0; left: 0;
+            z-index: 1000; border-bottom: 1px solid var(--border-color);
+        }
+        .nav-container { display: flex; justify-content: space-between; align-items: center; }
+        .nav-logo { display: flex; align-items: center; gap: 10px; text-decoration: none; }
+        .logo-img { width: 40px; height: 40px; border-radius: 8px; }
+        .logo-text {
+            font-size: 1.8rem; font-weight: 700; background: var(--gradient-text);
+            -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+        }
+        .nav-menu { display: flex; list-style: none; gap: 30px; margin: 0; }
+        .nav-link {
+            color: var(--text-muted-color); text-decoration: none; position: relative;
+            padding-bottom: 5px; transition: color 0.3s ease;
+        }
+        .nav-link::after {
+            content: ''; position: absolute; bottom: 0; left: 0;
+            width: 0; height: 2px; background: var(--gradient-text);
+            transition: width 0.3s ease;
+        }
+        .nav-link:hover, .nav-link.active { color: var(--text-color); }
+        .nav-link:hover::after, .nav-link.active::after { width: 100%; }
+        .theme-toggle button {
+            background: transparent; border: none; cursor: pointer;
+            font-size: 1.5rem; color: var(--text-muted-color);
+            transition: transform 0.3s, color 0.3s;
+        }
+        .theme-toggle button:hover { transform: scale(1.2); color: var(--text-color); }
+        .hamburger { display: none; cursor: pointer; }
+        .hamburger span {
+            display: block; width: 25px; height: 3px; margin: 5px 0;
+            background: var(--text-color); transition: 0.4s;
+        }
+
+        /* --- PAGE HEADER (HERO) --- */
+        .page-header {
+            padding: 120px 0 100px; text-align: center;
+            background: url('https://images.unsplash.com/photo-1531297484001-80022131f5a1?auto=format&fit=crop&w=1520&q=80') no-repeat center center/cover;
+            color: white; position: relative;
+        }
+        .page-header::before {
+            content: ''; position: absolute; top: 0; left: 0;
+            width: 100%; height: 100%; background: var(--hero-overlay-color);
+        }
+        .page-header .container { position: relative; z-index: 1; }
+        .page-title { font-size: 3.5rem; margin-bottom: 15px; font-weight: 700; }
+        .page-subtitle { font-size: 1.2rem; max-width: 700px; margin: 0 auto; opacity: 0.9; }
+        .code-snippet {
+            background: rgba(0, 0, 0, 0.4); border-left: 4px solid var(--secondary-color);
+            padding: 20px; margin: 30px auto; max-width: 600px;
+            border-radius: 8px; font-family: var(--code-font);
+            text-align: left; backdrop-filter: blur(5px);
+        }
+        
+        /* --- GENERAL SECTION STYLING --- */
+        .section { padding: 80px 0; }
+        .section:nth-child(even) { background-color: var(--surface-secondary-color); }
+        .section-title {
+            text-align: center; font-size: 2.5rem; font-weight: 600;
+            margin-bottom: 60px; position: relative;
+        }
+        .section-title::after {
+            content: ''; position: absolute; bottom: -15px; left: 50%;
+            transform: translateX(-50%); width: 80px; height: 4px;
+            background: var(--gradient-primary); border-radius: 2px;
+        }
+
+        /* --- INTRO SECTION --- */
+        .intro-content { text-align: center; max-width: 800px; margin: 0 auto; }
+        .intro-content h2 { font-size: 2.2rem; margin-bottom: 30px; color: var(--secondary-color); }
+        .intro-content p { font-size: 1.1rem; margin-bottom: 20px; color: var(--text-muted-color); }
+        .tech-tags { display: flex; flex-wrap: wrap; justify-content: center; gap: 10px; margin-top: 40px; }
+        .tech-tag {
+            background: var(--surface-secondary-color); padding: 8px 18px;
+            border-radius: 50px; font-size: 0.9rem; font-weight: 500;
+            color: var(--text-muted-color); border: 1px solid var(--border-color);
+        }
+
+        /* --- CARD GRIDS & CARDS --- */
+        .card-grid {
+            display: grid; gap: 30px;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+        }
+        .card {
+            background: var(--surface-color); padding: 30px;
+            border-radius: 12px; box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+            border: 1px solid var(--border-color);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        .card:hover { transform: translateY(-8px); box-shadow: var(--card-shadow); }
+        
+        /* Team Structure Cards */
+        .category-header { display: flex; align-items: center; margin-bottom: 20px; gap: 15px; }
+        .category-icon {
+            width: 50px; height: 50px; background: var(--surface-secondary-color);
+            border-radius: 50%; display: flex; align-items: center; justify-content: center;
+            color: var(--primary-color); font-size: 1.5rem; flex-shrink: 0;
+        }
+        .category-title { font-size: 1.5rem; font-weight: 600; color: var(--text-color); }
+        .role-list { list-style: none; }
+        .role-item { padding: 12px 0; border-bottom: 1px solid var(--border-color); display: flex; align-items: center; }
+        .role-item:last-child { border-bottom: none; }
+        .role-icon { color: var(--secondary-color); margin-right: 12px; }
+
+        /* Features, Awards, Media Cards */
+        .info-card { text-align: center; }
+        .info-icon { font-size: 2.5rem; margin-bottom: 20px; }
+        .info-card h3 { font-size: 1.3rem; margin-bottom: 15px; font-weight: 600; }
+        .info-card p { color: var(--text-muted-color); }
+        .feature-icon { color: var(--primary-color); }
+        .award-icon { color: #f59e0b; }
+        .media-instagram { color: #E1306C; }
+        .media-youtube { color: #FF0000; }
+        .media-website { color: var(--secondary-color); }
+
+        /* --- FOOTER --- */
+        .footer { background: var(--surface-color); padding: 40px 0; border-top: 1px solid var(--border-color); }
+        .footer-content {
+            display: flex; justify-content: space-between; align-items: center;
+            flex-wrap: wrap; gap: 20px;
+        }
+        .footer-text { text-align: center; color: var(--text-muted-color); flex-grow: 1; }
+        .footer-social { display: flex; gap: 15px; }
+        .social-link {
+            display: inline-flex; align-items: center; justify-content: center;
+            width: 40px; height: 40px; background: var(--surface-secondary-color);
+            border: 1px solid var(--border-color);
+            border-radius: 50%; color: var(--text-muted-color); text-decoration: none;
+            transition: all 0.3s ease;
+        }
+        .social-link:hover { background: var(--primary-color); color: white; border-color: var(--primary-color); }
+        
+        /* --- RESPONSIVE --- */
+        @media (max-width: 768px) {
+            main { padding-top: 73px; }
+            .nav-menu {
+                display: none; position: absolute; top: 100%; left: 0; width: 100%;
+                background: var(--nav-background); flex-direction: column;
+                text-align: center; padding: 10px 0;
+            }
+            .nav-menu.active { display: flex; }
+            .nav-menu li { padding: 15px 0; }
+            .hamburger { display: block; }
+            .hamburger.active span:nth-child(1) { transform: rotate(-45deg) translate(-5px, 6px); }
+            .hamburger.active span:nth-child(2) { opacity: 0; }
+            .hamburger.active span:nth-child(3) { transform: rotate(45deg) translate(-5px, -6px); }
+            .page-header { padding: 100px 0 80px; }
+            .page-title { font-size: 2.5rem; }
+            .section { padding: 60px 0; }
+            .section-title { font-size: 2rem; }
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar">
+        <div class="container nav-container">
+            <a href="index.html" class="nav-logo">
+                <img src="\ECHO\logo.png" alt="ECHO Logo" class="logo-img">
+                <span class="logo-text">ECHO</span>
+            </a>
+            <ul class="nav-menu" id="nav-menu">
+                <li><a href="index.html" class="nav-link">Home</a></li>
+                <li><a href="members.html" class="nav-link">Members</a></li>
+                <li><a href="core.html" class="nav-link">Core Team</a></li>
+                <li><a href="events.html" class="nav-link">Events</a></li>
+                <li><a href="gallery.html" class="nav-link">Gallery</a></li>
+                <li><a href="about.html" class="nav-link active">About</a></li>
+                <li><a href="leaderboard.html" class="nav-link">Leaderboard</a></li>
+            </ul>
+            <div class="theme-toggle">
+                <button id="theme-btn">🌙</button>
+            </div>
+            <div class="hamburger" id="hamburger">
+                <span></span><span></span><span></span>
+            </div>
+        </div>
+    </nav>
+    
+    <main>
+        <header class="page-header">
+            <div class="container">
+                <h1 class="page-title" data-aos="fade-down">About ECHO</h1>
+                <p class="page-subtitle" data-aos="fade-down" data-aos-delay="100">The ultimate student-driven club of CSD + ISE</p>
+                <div class="code-snippet" data-aos="fade-up" data-aos-delay="200">
+                    <span style="color: #ff79c6">// ECHO Club Manifesto</span><br>
+                    <span style="color: #8be9fd">while</span>(<span style="color: #f1fa8c">true</span>) {<br>
+                    &nbsp;&nbsp;<span style="color: #50fa7b">code</span>(); <span style="color: #6272a4">// Write clean code</span><br>
+                    &nbsp;&nbsp;<span style="color: #50fa7b">innovate</span>(); <span style="color: #6272a4">// Build new things</span><br>
+                    &nbsp;&nbsp;<span style="color: #50fa7b">makeLearningFun</span>(); <span style="color: #6272a4">// Always</span><br>
+                    }
+                </div>
+            </div>
+        </header>
+        
+        <section class="section">
+            <div class="container">
+                <div class="intro-content">
+                    <h2 data-aos="fade-up">What is ECHO?</h2>
+                    [cite_start]<p data-aos="fade-up" data-aos-delay="100">ECHO is the ultimate student-driven club of CSD + ISE! [cite: 3] [cite_start]We are here to code, design, hack, innovate, host cultural events, and most importantly - make learning fun and impactful. [cite: 4] [cite_start]From AI/ML workshops to Hackathons, from Memes on Insta to Professional LinkedIn posts, ECHO is where ideas resonate and students shine! [cite: 5]</p>
+                    <div class="tech-tags" data-aos="fade-up" data-aos-delay="200">
+                        <span class="tech-tag">AI/ML</span>
+                        <span class="tech-tag">Web Dev</span>
+                        <span class="tech-tag">Cybersecurity</span>
+                        <span class="tech-tag">Hackathons</span>
+                        <span class="tech-tag">UI/UX Design</span>
+                        <span class="tech-tag">Cultural Events</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <section class="section">
+            <div class="container">
+                <h2 class="section-title" data-aos="fade-up">Core Team Structure</h2>
+                <div class="card-grid">
+                    <div class="card" data-aos="fade-up" data-aos-delay="100">
+                        <div class="category-header">
+                            <div class="category-icon"><i class="fas fa-crown"></i></div>
+                            <h3 class="category-title">Leadership</h3>
+                        </div>
+                        <ul class="role-list">
+                            <li class="role-item"><span class="role-icon"><i class="fas fa-star"></i></span>President (Core Lead)</li>
+                            <li class="role-item"><span class="role-icon"><i class="fas fa-star"></i></span>Vice President (Core Co-Lead)</li>
+                        </ul>
+                    </div>
+                    <div class="card" data-aos="fade-up" data-aos-delay="200">
+                        <div class="category-header">
+                            <div class="category-icon"><i class="fas fa-cogs"></i></div>
+                            <h3 class="category-title">Operations</h3>
+                        </div>
+                        <ul class="role-list">
+                            <li class="role-item"><span class="role-icon"><i class="fas fa-star"></i></span>General & Joint Secretary</li>
+                            <li class="role-item"><span class="role-icon"><i class="fas fa-star"></i></span>Treasurer & Finance Co-Lead</li>
+                             <li class="role-item"><span class="role-icon"><i class="fas fa-star"></i></span>Speaker</li>
+                        </ul>
+                    </div>
+                    <div class="card" data-aos="fade-up" data-aos-delay="300">
+                        <div class="category-header">
+                            <div class="category-icon"><i class="fas fa-laptop-code"></i></div>
+                            <h3 class="category-title">Technical Divisions</h3>
+                        </div>
+                        <ul class="role-list">
+                            <li class="role-item"><span class="role-icon"><i class="fas fa-star"></i></span>Website & Tech Infrastructure</li>
+                            <li class="role-item"><span class="role-icon"><i class="fas fa-star"></i></span>AI/ML/GenAI Division</li>
+                            <li class="role-item"><span class="role-icon"><i class="fas fa-star"></i></span>Hackathon & Project Division</li>
+                        </ul>
+                    </div>
+                    <div class="card" data-aos="fade-up" data-aos-delay="400">
+                        <div class="category-header">
+                            <div class="category-icon"><i class="fas fa-paint-brush"></i></div>
+                            <h3 class="category-title">Creative & Media</h3>
+                        </div>
+                         <ul class="role-list">
+                            <li class="role-item"><span class="role-icon"><i class="fas fa-star"></i></span>Design & Graphics Division</li>
+                            <li class="role-item"><span class="role-icon"><i class="fas fa-star"></i></span>Social Media & Content Division</li>
+                             <li class="role-item"><span class="role-icon"><i class="fas fa-star"></i></span>Cultural & Event Division</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <section class="section">
+            <div class="container">
+                <h2 class="section-title" data-aos="fade-up">Member Benefits & Features</h2>
+                <div class="card-grid">
+                    <div class="card info-card" data-aos="fade-up" data-aos-delay="100">
+                        <div class="info-icon feature-icon"><i class="fas fa-trophy"></i></div>
+                        <h3>Competition Reimbursement</h3>
+                        [cite_start]<p>Win external competitions and get 50% of your registration fee reimbursed! [cite: 32]</p>
+                    </div>
+                    <div class="card info-card" data-aos="fade-up" data-aos-delay="200">
+                        <div class="info-icon feature-icon"><i class="fas fa-lightbulb"></i></div>
+                        <h3>Project Incubation</h3>
+                        <p>Have an idea? [cite_start]Our club mentors will help you build it from the ground up. [cite: 34]</p>
+                    </div>
+                    <div class="card info-card" data-aos="fade-up" data-aos-delay="300">
+                        <div class="info-icon feature-icon"><i class="fas fa-rocket"></i></div>
+                        <h3>Hackathon Booster Pack</h3>
+                        [cite_start]<p>Get exclusive prep sessions and resources before you head into the real battle. [cite: 39]</p>
+                    </div>
+                    <div class="card info-card" data-aos="fade-up" data-aos-delay="400">
+                        <div class="info-icon feature-icon"><i class="fas fa-certificate"></i></div>
+                        <h3>Core Member Perks</h3>
+                        [cite_start]<p>Receive leadership certificates, event priority, and exclusive internship perks. [cite: 26]</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="section">
+            <div class="container">
+                <h2 class="section-title" data-aos="fade-up">Awards & Recognition</h2>
+                <div class="card-grid" style="grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));">
+                    <div class="card info-card" data-aos="fade-up" data-aos-delay="100">
+                        <div class="info-icon award-icon"><i class="fas fa-chalkboard-teacher"></i></div>
+                        <h3>Workshop Excellence</h3>
+                        [cite_start]<p>For the best student trainers. [cite: 45]</p>
+                    </div>
+                     <div class="card info-card" data-aos="fade-up" data-aos-delay="200">
+                        <div class="info-icon award-icon"><i class="fas fa-tasks"></i></div>
+                        <h3>Organizer's Award</h3>
+                        [cite_start]<p>For event managers. [cite: 46]</p>
+                    </div>
+                    <div class="card info-card" data-aos="fade-up" data-aos-delay="300">
+                        <div class="info-icon award-icon"><i class="fas fa-shield-alt"></i></div>
+                        <h3>Rolling Shield</h3>
+                        [cite_start]<p>Most active member of the semester. [cite: 47]</p>
+                    </div>
+                    <div class="card info-card" data-aos="fade-up" data-aos-delay="400">
+                        <div class="info-icon award-icon"><i class="fas fa-award"></i></div>
+                        <h3>ECHO Excellence</h3>
+                        [cite_start]<p>For top contributors. [cite: 48, 49]</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <footer class="footer">
+            <div class="container footer-content">
+                <a href="index.html" class="nav-logo">
+                    <img src="assets/images/logo.png" alt="ECHO Logo" class="logo-img">
+                    <span class="logo-text">ECHO</span>
+                </a>
+                <div class="footer-text">
+                    <p>&copy; 2025 ECHO - Excellence in Computing, Hacking & Operations</p>
+                </div>
+                <div class="footer-social">
+                    <a href="#" class="social-link" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+                    <a href="#" class="social-link" aria-label="YouTube"><i class="fab fa-youtube"></i></a>
+                    <a href="#" class="social-link" aria-label="LinkedIn"><i class="fab fa-linkedin-in"></i></a>
+                </div>
+            </div>
+        </footer>
+    </main>
+    
+    <script src="https://unpkg.com/aos@next/dist/aos.js"></script>
+    <script>
+    document.addEventListener('DOMContentLoaded', () => {
+        // --- 1. NAVBAR & THEME LOGIC ---
+        const themeBtn = document.getElementById('theme-btn');
+        if (themeBtn) {
+            const savedTheme = localStorage.getItem('echoTheme') || 'dark';
+            document.documentElement.setAttribute('data-theme', savedTheme);
+            themeBtn.textContent = savedTheme === 'dark' ? '🌙' : '☀️';
+            themeBtn.addEventListener('click', () => {
+                const newTheme = (document.documentElement.getAttribute('data-theme') || 'dark') === 'dark' ? 'light' : 'dark';
+                document.documentElement.setAttribute('data-theme', newTheme);
+                themeBtn.textContent = newTheme === 'dark' ? '🌙' : '☀️';
+                localStorage.setItem('echoTheme', newTheme);
+            });
+        }
+        const hamburger = document.getElementById('hamburger');
+        const navMenu = document.getElementById('nav-menu');
+        if (hamburger && navMenu) {
+            hamburger.addEventListener('click', () => {
+                hamburger.classList.toggle('active');
+                navMenu.classList.toggle('active');
+            });
+        }
+
+        // --- 2. INITIALIZE ANIMATE ON SCROLL ---
+        AOS.init({
+            duration: 800,
+            once: true,
+            offset: 50
+        });
+    });
+    </script>
+</body>
+</html>

@@ -1,0 +1,601 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Events & Workshops - ECHO</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+
+    <style>
+        /* --- THEME & COLOR VARIABLES --- */
+        :root { /* Light Mode Defaults */
+            --background-color: #f4f4f9;
+            --surface-color: #ffffff;
+            --surface-secondary-color: #f8f9fa;
+            --text-color: #1c1c1e;
+            --text-muted-color: #6a6a6e;
+            --border-color: #e5e5e5;
+            --primary-color: #4361ee;
+            --secondary-color: #3a0ca3;
+            --success-color: #10b981;
+            --warning-color: #f59e0b;
+            --card-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+            --gradient-text: linear-gradient(90deg, var(--primary-color), var(--secondary-color));
+            --gradient-primary: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            --nav-background: rgba(255, 255, 255, 0.8);
+        }
+
+        [data-theme="dark"] {
+            --background-color: #121212;
+            --surface-color: #1e1e1e;
+            --surface-secondary-color: #2a2a2a;
+            --text-color: #e0e0e0;
+            --text-muted-color: #a0a0a0;
+            --border-color: #333333;
+            --primary-color: #6a11cb;
+            --secondary-color: #2575fc;
+            --success-color: #16a34a;
+            --warning-color: #d97706;
+            --card-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
+            --nav-background: rgba(18, 18, 18, 0.8);
+        }
+
+        /* --- BASE STYLES --- */
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        html { scroll-behavior: smooth; }
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: var(--background-color);
+            color: var(--text-color);
+            line-height: 1.6;
+            transition: background-color 0.3s, color 0.3s;
+        }
+        .container { max-width: 1200px; margin: 0 auto; padding: 0 20px; }
+        main { padding-top: 80px; }
+
+        /* --- ENHANCED PAGE LOADER --- */
+        .loader {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background-color: var(--background-color);
+            display: flex; justify-content: center; align-items: center; z-index: 1000;
+            transition: opacity 0.8s ease-out, visibility 0.8s ease-out;
+        }
+        .loader-hidden { opacity: 0; visibility: hidden; }
+        
+        .loader-content {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .echo-loader {
+            position: relative;
+            width: 150px;
+            height: 150px;
+            margin-bottom: 30px;
+        }
+        
+        .echo-circle {
+            position: absolute;
+            border-radius: 50%;
+            border: 3px solid transparent;
+            animation: rotate 1.5s linear infinite;
+        }
+        
+        .echo-circle:nth-child(1) {
+            width: 150px;
+            height: 150px;
+            border-top-color: var(--primary-color);
+            top: 0;
+            left: 0;
+            animation-duration: 1.5s;
+        }
+        
+        .echo-circle:nth-child(2) {
+            width: 120px;
+            height: 120px;
+            border-top-color: var(--secondary-color);
+            top: 15px;
+            left: 15px;
+            animation-duration: 1s;
+            animation-direction: reverse;
+        }
+        
+        .echo-circle:nth-child(3) {
+            width: 90px;
+            height: 90px;
+            border-top-color: var(--primary-color);
+            top: 30px;
+            left: 30px;
+            animation-duration: 0.8s;
+        }
+        
+        .echo-icon {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 2.5rem;
+            color: var(--primary-color);
+            animation: pulse 1s ease-in-out infinite alternate;
+        }
+        
+        .loader-text {
+            text-align: center;
+        }
+        
+        .loader-text span {
+            font-size: 2.5rem; 
+            font-weight: 700; 
+            display: inline-block; 
+            opacity: 0;
+            animation: fadeInLetter 0.5s forwards;
+            background: var(--gradient-text);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        
+        .progress-bar {
+            width: 250px;
+            height: 6px;
+            background: rgba(0,0,0,0.1);
+            border-radius: 10px;
+            margin-top: 20px;
+            overflow: hidden;
+            position: relative;
+        }
+        
+        .progress-fill {
+            position: absolute;
+            height: 100%;
+            width: 0%;
+            background: var(--gradient-text);
+            border-radius: 10px;
+            animation: fillProgress 2s linear forwards;
+        }
+        
+        @keyframes rotate {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        
+        @keyframes pulse {
+            0% { transform: translate(-50%, -50%) scale(1); opacity: 0.7; }
+            100% { transform: translate(-50%, -50%) scale(1.2); opacity: 1; }
+        }
+        
+        @keyframes fadeInLetter {
+            from { opacity: 0; transform: translateY(20px) rotate(20deg); }
+            to { opacity: 1; transform: translateY(0) rotate(0); }
+        }
+        
+        @keyframes fillProgress {
+            0% { width: 0%; }
+            100% { width: 100%; }
+        }
+        
+        /* --- MAIN CONTENT --- */
+        .main-content { opacity: 0; animation: fadeInPage 1s forwards 2.2s; }
+        @keyframes fadeInPage { to { opacity: 1; } }
+
+        /* --- NAVIGATION BAR --- */
+        .navbar {
+            background: var(--nav-background); backdrop-filter: blur(10px);
+            padding: 15px 0; position: fixed; width: 100%; top: 0; left: 0;
+            z-index: 1000; border-bottom: 1px solid var(--border-color);
+        }
+        .nav-container { display: flex; justify-content: space-between; align-items: center; }
+        .nav-logo { display: flex; align-items: center; gap: 10px; text-decoration: none; }
+        .logo-img { width: 40px; height: 40px; border-radius: 8px; }
+        .logo-text {
+            font-size: 1.8rem; font-weight: 700; background: var(--gradient-text);
+            -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+        }
+        .nav-menu { display: flex; list-style: none; gap: 30px; margin: 0; }
+        .nav-link {
+            color: var(--text-muted-color); text-decoration: none; position: relative;
+            padding-bottom: 5px; transition: color 0.3s ease;
+        }
+        .nav-link::after {
+            content: ''; position: absolute; bottom: 0; left: 0;
+            width: 0; height: 2px; background: var(--gradient-text);
+            transition: width 0.3s ease;
+        }
+        .nav-link:hover, .nav-link.active { color: var(--text-color); }
+        .nav-link:hover::after, .nav-link.active::after { width: 100%; }
+        .theme-toggle button {
+            background: transparent; border: none; cursor: pointer;
+            font-size: 1.5rem; color: var(--text-muted-color);
+            transition: transform 0.3s, color 0.3s;
+        }
+        .theme-toggle button:hover { transform: scale(1.2); color: var(--text-color); }
+        .hamburger { display: none; cursor: pointer; }
+        .hamburger span {
+            display: block; width: 25px; height: 3px; margin: 5px 0;
+            background: var(--text-color); transition: 0.4s;
+        }
+
+        /* --- PAGE HEADER --- */
+        .page-header { text-align: center; padding: 40px 0; }
+        .page-title {
+            font-size: 2.8rem; font-weight: 700;
+            background: var(--gradient-text);
+            -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+            margin-bottom: 10px;
+        }
+        .page-subtitle { color: var(--text-muted-color); font-size: 1.1rem; }
+
+        /* --- EVENTS SECTIONS --- */
+        .section-container { padding: 40px 0; }
+        .section-container:nth-child(odd) { background-color: var(--surface-secondary-color); }
+        .section-header {
+            display: flex; align-items: center; gap: 16px;
+            margin-bottom: 40px; padding-bottom: 16px;
+            border-bottom: 1px solid var(--border-color);
+        }
+        .section-icon {
+            width: 50px; height: 50px; border-radius: 50%;
+            background: var(--gradient-primary); color: white;
+            display: flex; align-items: center; justify-content: center;
+            font-size: 20px; box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+        }
+        .section-title { font-size: 2.2rem; font-weight: 600; }
+
+        /* --- EVENT CARDS --- */
+        .items-grid {
+            display: grid; gap: 30px;
+            grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+        }
+        .item-card {
+            background-color: var(--surface-color); border-radius: 12px;
+            border: 1px solid var(--border-color);
+            overflow: hidden; display: flex; flex-direction: column;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            opacity: 0; animation: fadeIn 0.5s ease forwards;
+        }
+        @keyframes fadeIn { to { opacity: 1; transform: translateY(0); } }
+        .item-card:hover { transform: translateY(-8px); box-shadow: var(--card-shadow); }
+        .thumbnail-container {
+            position: relative; width: 100%; padding-top: 56.25%; /* 16:9 */
+            background-color: var(--surface-secondary-color); overflow: hidden;
+        }
+        .thumbnail {
+            position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+            object-fit: cover; transition: transform 0.5s ease;
+            z-index: 2;
+        }
+        .item-card:hover .thumbnail { transform: scale(1.05); }
+        
+        /* Enhanced 3D-style placeholder */
+        .empty-thumbnail {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: linear-gradient(135deg, var(--surface-secondary-color), var(--background-color));
+            perspective: 500px;
+            z-index: 1;
+        }
+        
+        .placeholder-3d {
+            width: 70px;
+            height: 70px;
+            position: relative;
+            transform-style: preserve-3d;
+            animation: float3d 6s ease-in-out infinite;
+        }
+        
+        .placeholder-3d-face {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2rem;
+            background: var(--gradient-primary);
+            border-radius: 8px;
+            color: white;
+            backface-visibility: hidden;
+            box-shadow: 0 0 15px rgba(0,0,0,0.1);
+        }
+        
+        .placeholder-3d-face:nth-child(1) {
+            transform: translateZ(35px);
+        }
+        
+        .placeholder-3d-face:nth-child(2) {
+            transform: rotateY(180deg) translateZ(35px);
+        }
+        
+        .placeholder-3d-face:nth-child(3) {
+            transform: rotateY(90deg) translateZ(35px);
+            width: 70px;
+            background: rgba(67, 97, 238, 0.8);
+        }
+        
+        .placeholder-3d-face:nth-child(4) {
+            transform: rotateY(-90deg) translateZ(35px);
+            width: 70px;
+            background: rgba(58, 12, 163, 0.8);
+        }
+        
+        @keyframes float3d {
+            0%, 100% { transform: rotateY(0deg) rotateX(5deg) translateY(0); }
+            25% { transform: rotateY(90deg) rotateX(5deg) translateY(-8px); }
+            50% { transform: rotateY(180deg) rotateX(5deg) translateY(0); }
+            75% { transform: rotateY(270deg) rotateX(5deg) translateY(-8px); }
+        }
+        
+        .status-badge {
+            position: absolute; top: 12px; right: 12px; padding: 6px 12px;
+            border-radius: 9999px; font-size: 0.8rem; font-weight: 600;
+            color: white; z-index: 3;
+        }
+        .status-badge.active { background-color: var(--success-color); }
+        .status-badge.inactive { background-color: var(--text-muted-color); }
+        .card-content { padding: 20px; flex-grow: 1; display: flex; flex-direction: column; }
+        .card-title { font-size: 1.3rem; font-weight: 600; margin-bottom: 12px; }
+        .card-description { font-size: 0.95rem; color: var(--text-muted-color); margin-bottom: 20px; flex-grow: 1; }
+        .details-grid {
+            display: grid; gap: 10px; font-size: 0.9rem;
+            color: var(--text-muted-color); margin-bottom: 20px;
+        }
+        .details-grid span { display: flex; align-items: center; gap: 10px; }
+        .card-footer { display: flex; justify-content: space-between; align-items: center; margin-top: auto; }
+        .fee-badge {
+            padding: 6px 12px; border-radius: 8px;
+            font-weight: 600; font-size: 0.9rem;
+        }
+        .fee-badge.free { background-color: rgba(22, 163, 74, 0.1); color: var(--success-color); }
+        .fee-badge.paid { background-color: rgba(217, 119, 6, 0.1); color: var(--warning-color); }
+        .register-btn {
+            padding: 8px 16px; border-radius: 8px; font-weight: 500;
+            font-size: 0.9rem; background: var(--gradient-primary);
+            color: white; text-decoration: none;
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+        .register-btn:hover { transform: translateY(-2px); box-shadow: 0 4px 10px rgba(0,0,0,0.2); }
+
+        /* --- RESPONSIVE DESIGN --- */
+        @media (max-width: 768px) {
+            main { padding-top: 73px; }
+            .nav-menu {
+                display: none; position: absolute; top: 100%; left: 0; width: 100%;
+                background: var(--nav-background); flex-direction: column;
+                text-align: center; padding: 10px 0;
+            }
+            .nav-menu.active { display: flex; }
+            .nav-menu li { padding: 15px 0; }
+            .hamburger { display: block; }
+            .hamburger.active span:nth-child(1) { transform: rotate(-45deg) translate(-5px, 6px); }
+            .hamburger.active span:nth-child(2) { opacity: 0; }
+            .hamburger.active span:nth-child(3) { transform: rotate(45deg) translate(-5px, -6px); }
+            
+            .echo-loader {
+                width: 120px;
+                height: 120px;
+            }
+            
+            .echo-circle:nth-child(1) {
+                width: 120px;
+                height: 120px;
+            }
+            
+            .echo-circle:nth-child(2) {
+                width: 90px;
+                height: 90px;
+                top: 15px;
+                left: 15px;
+            }
+            
+            .echo-circle:nth-child(3) {
+                width: 60px;
+                height: 60px;
+                top: 30px;
+                left: 30px;
+            }
+            
+            .loader-text span {
+                font-size: 2rem;
+            }
+            
+            .progress-bar {
+                width: 200px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="loader" id="loader">
+        <div class="loader-content">
+            <div class="echo-loader">
+                <div class="echo-circle"></div>
+                <div class="echo-circle"></div>
+                <div class="echo-circle"></div>
+                <span class="echo-icon material-icons">event</span>
+            </div>
+            <div class="loader-text">
+                <span style="animation-delay: 0.1s;">E</span>
+                <span style="animation-delay: 0.2s;">C</span>
+                <span style="animation-delay: 0.3s;">H</span>
+                <span style="animation-delay: 0.4s;">O</span>
+            </div>
+            <div class="progress-bar">
+                <div class="progress-fill"></div>
+            </div>
+        </div>
+    </div>
+
+    <div class="main-content">
+        <nav class="navbar">
+            <div class="container nav-container">
+                <a href="index.html" class="nav-logo">
+                    <img src="\ECHO\logo.png" alt="ECHO Logo" class="logo-img">
+                    <span class="logo-text">ECHO</span>
+                </a>
+                <ul class="nav-menu" id="nav-menu">
+                    <li><a href="index.html" class="nav-link">Home</a></li>
+                    <li><a href="members.html" class="nav-link">Members</a></li>
+                    <li><a href="core.html" class="nav-link">Core Team</a></li>
+                    <li><a href="events.html" class="nav-link active">Events</a></li>
+                    <li><a href="gallery.html" class="nav-link">Gallery</a></li>
+                    <li><a href="about.html" class="nav-link">About</a></li>
+                    <li><a href="leaderboard.html" class="nav-link">Leaderboard</a></li>
+                </ul>
+                <div class="theme-toggle">
+                    <button id="theme-btn">🌙</button>
+                </div>
+                <div class="hamburger" id="hamburger">
+                    <span></span><span></span><span></span>
+                </div>
+            </div>
+        </nav>
+
+        <main>
+            <section class="page-header">
+                <div class="container">
+                    <h1 class="page-title">Opportunities Hub</h1>
+                    <p class="page-subtitle">Explore upcoming and past events, hackathons, and workshops from our college and beyond.</p>
+                </div>
+            </section>
+
+            <section class="section-container">
+                <div class="container">
+                    <div class="section-header">
+                        <span class="section-icon"><i class="fas fa-trophy"></i></span>
+                        <h2 class="section-title">Events & Competitions</h2>
+                    </div>
+                    <div class="items-grid" id="events-grid"></div>
+                </div>
+            </section>
+
+            <section class="section-container">
+                <div class="container">
+                    <div class="section-header">
+                        <span class="section-icon"><i class="fas fa-tools"></i></span>
+                        <h2 class="section-title">Workshops & Seminars</h2>
+                    </div>
+                    <div class="items-grid" id="workshops-grid"></div>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <script src="event_workshop_data.js"></script>
+    <script>
+    document.addEventListener('DOMContentLoaded', () => {
+        // --- 1. PAGE LOADER ---
+        const loader = document.getElementById('loader');
+        setTimeout(() => {
+            if (loader) loader.classList.add('loader-hidden');
+        }, 2000); // 2 seconds
+
+        // --- 2. NAVBAR & THEME LOGIC ---
+        const themeBtn = document.getElementById('theme-btn');
+        if (themeBtn) {
+            const savedTheme = localStorage.getItem('echoTheme') || 'dark';
+            document.documentElement.setAttribute('data-theme', savedTheme);
+            themeBtn.textContent = savedTheme === 'dark' ? '🌙' : '☀️';
+            themeBtn.addEventListener('click', () => {
+                const newTheme = (document.documentElement.getAttribute('data-theme') || 'dark') === 'dark' ? 'light' : 'dark';
+                document.documentElement.setAttribute('data-theme', newTheme);
+                themeBtn.textContent = newTheme === 'dark' ? '🌙' : '☀️';
+                localStorage.setItem('echoTheme', newTheme);
+            });
+        }
+        const hamburger = document.getElementById('hamburger');
+        const navMenu = document.getElementById('nav-menu');
+        if (hamburger && navMenu) {
+            hamburger.addEventListener('click', () => {
+                hamburger.classList.toggle('active');
+                navMenu.classList.toggle('active');
+            });
+        }
+
+        // --- 3. RENDER LOGIC ---
+        function renderItems(data, containerId, type) {
+            const container = document.getElementById(containerId);
+            if (!container) return;
+            const sortedData = data.sort((a, b) => b.id - a.id);
+            container.innerHTML = sortedData.map((item, index) => {
+                const formattedDate = new Date(item.date).toLocaleDateString('en-IN', { day: 'numeric', month: 'short', year: 'numeric' });
+                const isFree = item.fee.toLowerCase() === 'free';
+                const hasThumbnail = item.thumbnail && item.thumbnail.trim() !== '';
+                const defaultIcon = type === 'events' ? 'fas fa-trophy' : 'fas fa-tools';
+                
+                const thumbnailHTML = hasThumbnail
+                    ? `<img src="${item.thumbnail}" alt="${item.title}" class="thumbnail" loading="lazy" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">`
+                    : '';
+                
+                // --- WHATSAPP INTEGRATION ---
+                let footerHTML = `<span style="color: var(--text-muted-color); font-weight: 500;"><i class="fas fa-check-circle"></i> Completed</span>`;
+                if (item.status === 'Active') {
+                    const messageTemplate = `
+🎉 Welcome to the ECHO Club Registration! 🎉
+
+I would like to register for the following event:
+*Event Name:* ${item.title}
+
+Please fill out your details below:
+-----------------------------------
+*👤 Name:* *🌿 Branch:* *🎓 Year:* *📧 Email:* *👥 Team Name (if applicable):* -----------------------------------
+
+Looking forward to seeing you there!
+                    `.trim();
+
+                    const encodedMessage = encodeURIComponent(messageTemplate);
+                    const whatsappURL = `https://wa.me/919110687983?text=${encodedMessage}`;
+                    footerHTML = `<a href="${whatsappURL}" target="_blank" rel="noopener noreferrer" class="register-btn">Register <i class="fas fa-arrow-right"></i></a>`;
+                }
+                
+                return `
+                <div class="item-card" style="animation-delay: ${index * 100}ms">
+                    <div class="thumbnail-container">
+                        ${thumbnailHTML}
+                        <div class="empty-thumbnail" style="${hasThumbnail ? 'display: none;' : 'display: flex;'}">
+                            <div class="placeholder-3d">
+                                <div class="placeholder-3d-face"><i class="${defaultIcon}"></i></div>
+                                <div class="placeholder-3d-face"><i class="fas fa-calendar-alt"></i></div>
+                                <div class="placeholder-3d-face"></div>
+                                <div class="placeholder-3d-face"></div>
+                            </div>
+                        </div>
+                        <span class="status-badge ${item.status.toLowerCase()}">${item.status}</span>
+                    </div>
+                    <div class="card-content">
+                        <h3 class="card-title">${item.title}</h3>
+                        <p class="card-description">${item.description}</p>
+                        <div class="details-grid">
+                            <span><i class="fas fa-map-marker-alt fa-fw"></i> ${item.college}</span>
+                            <span><i class="fas fa-calendar-alt fa-fw"></i> ${formattedDate}</span>
+                            <span><i class="fas fa-clock fa-fw"></i> ${item.time}</span>
+                        </div>
+                        <div class="card-footer">
+                            <span class="fee-badge ${isFree ? 'free' : 'paid'}">
+                                ${isFree ? '<i class="fas fa-gift"></i>' : '<i class="fas fa-tag"></i>'} ${item.fee}
+                            </span>
+                            ${footerHTML}
+                        </div>
+                    </div>
+                </div>
+                `;
+            }).join('');
+        }
+
+        // --- 4. INITIALIZE PAGE ---
+        renderItems(eventsData, 'events-grid', 'events');
+        renderItems(workshopsData, 'workshops-grid', 'workshops');
+    });
+    </script>
+</body>
+</html>
