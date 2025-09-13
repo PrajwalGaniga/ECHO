@@ -1,11 +1,11 @@
 const youtubeVideos = [
-    {thumbnail: '/ECHO-Website/logo.jpg', title: 'HackECHO 2025: Aftermovie', description: 'Relive the best moments from our flagship 48-hour hackathon. See the innovation, the fun, and the winners!', link: 'https://youtube.com'},
+    {thumbnail: 'logo.jpg', title: 'HackECHO 2025: Aftermovie', description: 'Relive the best moments from our flagship 48-hour hackathon. See the innovation, the fun, and the winners!', link: 'https://youtube.com'},
     {thumbnail: 'assets/images/gallery/yt-thumb2.jpg', title: 'AI Workshop with Dr. Raj Patel', description: 'A deep dive into the latest advancements in AI and Machine Learning. Full session recording available now.', link: 'https://youtube.com'},
     {thumbnail: '', title: 'Introduction to Ethical Hacking', description: 'Our Cybersecurity Head, Vikram Joshi, breaks down the basics of ethical hacking in this beginner-friendly tutorial.', link: 'https://youtube.com'}
 ]
 
 const instagramPosts = [
-    {thumbnail: '/ECHO-Website/logo.jpg', title: 'Teamwork makes the dream work!', description: 'Late-night coding sessions fueled by pizza and passion at HackECHO 2025. What an incredible turnout!', link: 'https://instagram.com'},
+    {thumbnail: 'logo.jpg', title: 'Teamwork makes the dream work!', description: 'Late-night coding sessions fueled by pizza and passion at HackECHO 2025. What an incredible turnout!', link: 'https://instagram.com'},
     {thumbnail: 'assets/images/gallery/insta-thumb2.jpg', title: 'Winner Announcement!', description: 'Congratulations to Team "CodeBrewers" for winning the top prize at the Inter-College Hackathon!', link: 'https://instagram.com'},
     {thumbnail: 'assets/images/gallery/insta-thumb3.jpg', title: 'Behind the Scenes', description: 'Our amazing events team setting up for the annual tech fest. The dedication is unreal!', link: 'https://instagram.com'},
     {thumbnail: '', title: 'ECHO Core Team 2025', description: 'Meet the leaders driving our community forward this year. Ready to make an impact!', link: 'https://instagram.com'}

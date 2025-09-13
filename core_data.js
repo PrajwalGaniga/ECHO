@@ -6,7 +6,7 @@ const coreTeam = [
         role:"President", 
         funFact:"Can code for 12 hours straight with just coffee ☕ ", 
         category:"Leadership", 
-        profilePic:"/assets/images/core/profile_prajwal.png",
+        profilePic:"assets/images/core/profile_prajwal.png",
         phone:"+91 9110687983",
         email:"prajwalganiga06@gmail.com",
         linkedin:"https://linkedin.com/in/arjunsharma"
@@ -17,11 +17,12 @@ const coreTeam = [
         role:"Vice President", 
         funFact:"Speaks 5 programming languages fluently 💻", 
         category:"Leadership", 
-        profilePic:"/assets/images/core/sanvi.jpg",
+        profilePic:"assets/images/core/sanvi.jpg",
         phone:"+91 9074263305",
         email:"sanviiishettyyyy@gmail.com",
         linkedin:"https://linkedin.com/in/priyapatel"
     },
+
 
     // Operations & Management
     {
@@ -30,7 +31,7 @@ const coreTeam = [
         role:"General Secretary", 
         funFact:"Organizes her life with Gantt charts 📊", 
         category:"Operations & Management", 
-        profilePic:"/assets/images/core/ishu.jpg",
+        profilePic:"assets/images/core/ishu.jpg",
         phone:"+91 73385 32833",
         email:"ishwarya9448@gmail.com",
         linkedin:"https://linkedin.com/in/ananyagupta"
@@ -41,7 +42,7 @@ const coreTeam = [
         role:"Joint Secretary", 
         funFact:"Can coordinate 5 events simultaneously 🎪", 
         category:"Operations & Management", 
-        profilePic:"/assets/images/core/varshini.jpg",
+        profilePic:"assets/images/core/varshini.jpg",
         phone:"+91 6361762421",
         email:"varshiniganiga35@gmail.com",
         linkedin:"https://linkedin.com/in/sruthikrishnan"
@@ -52,7 +53,7 @@ const coreTeam = [
         role:"Treasurer", 
         funFact:"Optimizes everything, including  morning routine ⚡", 
         category:"Operations & Management", 
-        profilePic:"/assets/images/core/sharanya.jpg",
+        profilePic:"assets/images/core/sharanya.jpg",
         phone:"+91 7736114876",
         email:"rsharanya77@gmail.com",
         linkedin:"https://linkedin.com/in/nikhilagarwal"
@@ -63,7 +64,7 @@ const coreTeam = [
         role:"Vice Treasurer", 
         funFact:"Optimizes everything, including his morning routine ⚡", 
         category:"Operations & Management", 
-        profilePic:"/assets/images/core/naman.jpg",
+        profilePic:"assets/images/core/naman.jpg",
         phone:"+91 7736114876",
         email:"naman@gmail.com",
         linkedin:"https://linkedin.com/in/nikhilagarwal"
@@ -74,11 +75,12 @@ const coreTeam = [
         role:"Speaker", 
         funFact:"Optimizes everything, including his morning routine ⚡", 
         category:"Operations & Management", 
-        profilePic:"/assets/images/core/ujwal.jpg",
+        profilePic:"assets/images/core/ujwal.jpg",
         phone:"+91 9324815718",
         email:"bangeraujwal35@gmail.com",
         linkedin:"https://linkedin.com/in/nikhilagarwal"
     },
+
 
     // Technical Division Leads
     {
@@ -87,7 +89,7 @@ const coreTeam = [
         role:"Website & Tech Lead", 
         funFact:"Debugs code in his dreams 🐛", 
         category:"Technical Division Leads", 
-        profilePic:"/assets/images/core/rakshitha.png",
+        profilePic:"assets/images/core/rakshitha.png",
         phone:"+91 7736593675",
         email:"bhat.rakshu6@gmail.com",
         linkedin:"https://www.linkedin.com/in/rakshitha-k-63718332b"
@@ -115,6 +117,7 @@ const coreTeam = [
         linkedin:"https://linkedin.com/in/kavyanair"
     },
 
+
     // Non-Technical Leads
     {
         id:9, 
@@ -122,7 +125,7 @@ const coreTeam = [
         role:"Cultural Lead", 
         funFact:"Dance like a pro 👁️", 
         category:"Non-Technical Leads", 
-        profilePic:"/assets/images/core/ashika.jpg",
+        profilePic:"assets/images/core/ashika.jpg",
         phone:"+91 9876543218",
         email:"sneha.reddy@echo.com",
         linkedin:"https://linkedin.com/in/snehareddy"
@@ -201,6 +204,7 @@ const coreTeam = [
         linkedin:"https://www.linkedin.com/in/shashank-naik-25b86332a"
     }
 ];
+
 
 const roleIcons = {
     "President":"👑",
