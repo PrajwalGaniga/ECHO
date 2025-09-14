@@ -9,10 +9,11 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
 
     <style>
         /* --- THEME & COLOR VARIABLES --- */
-        :root { /* Light Mode Defaults */
+        :root {
             --background-color: #f4f4f9;
             --surface-color: #ffffff;
             --surface-secondary-color: #f8f9fa;
@@ -23,25 +24,31 @@
             --secondary-color: #3a0ca3;
             --success-color: #10b981;
             --warning-color: #f59e0b;
+            --danger-color: #ef4444;
+            --info-color: #3b82f6;
             --card-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
             --gradient-text: linear-gradient(90deg, var(--primary-color), var(--secondary-color));
             --gradient-primary: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
             --nav-background: rgba(255, 255, 255, 0.8);
+            --particles-color: rgba(67, 97, 238, 0.3);
         }
 
         [data-theme="dark"] {
-            --background-color: #121212;
-            --surface-color: #1e1e1e;
-            --surface-secondary-color: #2a2a2a;
+            --background-color: #0a0a1a;
+            --surface-color: #1a1a2e;
+            --surface-secondary-color: #2a2a3e;
             --text-color: #e0e0e0;
             --text-muted-color: #a0a0a0;
-            --border-color: #333333;
+            --border-color: #333344;
             --primary-color: #6a11cb;
             --secondary-color: #2575fc;
             --success-color: #16a34a;
             --warning-color: #d97706;
-            --card-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
-            --nav-background: rgba(18, 18, 18, 0.8);
+            --danger-color: #dc2626;
+            --info-color: #2563eb;
+            --card-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+            --nav-background: rgba(18, 18, 38, 0.8);
+            --particles-color: rgba(106, 17, 203, 0.4);
         }
 
         /* --- BASE STYLES --- */
@@ -53,6 +60,7 @@
             color: var(--text-color);
             line-height: 1.6;
             transition: background-color 0.3s, color 0.3s;
+            overflow-x: hidden;
         }
         .container { max-width: 1200px; margin: 0 auto; padding: 0 20px; }
         main { padding-top: 80px; }
@@ -191,7 +199,7 @@
         }
         .nav-container { display: flex; justify-content: space-between; align-items: center; }
         .nav-logo { display: flex; align-items: center; gap: 10px; text-decoration: none; }
-        .logo-img { width: 40px; height: 40px; border-radius: 8px; }
+        .logo-img { width: 60px; height: 60px; border-radius: 8px; }
         .logo-text {
             font-size: 1.8rem; font-weight: 700; background: var(--gradient-text);
             -webkit-background-clip: text; -webkit-text-fill-color: transparent;
@@ -221,56 +229,272 @@
         }
 
         /* --- PAGE HEADER --- */
-        .page-header { text-align: center; padding: 40px 0; }
+        .page-header { 
+            text-align: center; 
+            padding: 60px 0 40px;
+            position: relative;
+            overflow: hidden;
+        }
         .page-title {
-            font-size: 2.8rem; font-weight: 700;
+            font-size: 3.2rem; font-weight: 800;
             background: var(--gradient-text);
             -webkit-background-clip: text; -webkit-text-fill-color: transparent;
-            margin-bottom: 10px;
+            margin-bottom: 15px;
+            position: relative;
+            z-index: 2;
         }
-        .page-subtitle { color: var(--text-muted-color); font-size: 1.1rem; }
+        .page-subtitle { 
+            color: var(--text-muted-color); 
+            font-size: 1.2rem; 
+            max-width: 600px;
+            margin: 0 auto 30px;
+        }
 
-        /* --- EVENTS SECTIONS --- */
-        .section-container { padding: 40px 0; }
-        .section-container:nth-child(odd) { background-color: var(--surface-secondary-color); }
-        .section-header {
-            display: flex; align-items: center; gap: 16px;
-            margin-bottom: 40px; padding-bottom: 16px;
-            border-bottom: 1px solid var(--border-color);
+        /* --- STATS DASHBOARD --- */
+        .stats-dashboard {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin: 30px 0;
+            padding: 0 20px;
         }
-        .section-icon {
-            width: 50px; height: 50px; border-radius: 50%;
-            background: var(--gradient-primary); color: white;
-            display: flex; align-items: center; justify-content: center;
-            font-size: 20px; box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+        
+        .stat-card {
+            background: var(--surface-color);
+            border-radius: 16px;
+            padding: 25px 20px;
+            text-align: center;
+            border: 1px solid var(--border-color);
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
         }
-        .section-title { font-size: 2.2rem; font-weight: 600; }
+        
+        .stat-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: var(--gradient-primary);
+        }
+        
+        .stat-card:hover {
+            transform: translateY(-8px);
+            box-shadow: var(--card-shadow);
+        }
+        
+        .stat-number {
+            font-size: 2.5rem;
+            font-weight: 800;
+            background: var(--gradient-text);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 8px;
+        }
+        
+        .stat-label {
+            color: var(--text-muted-color);
+            font-weight: 500;
+            text-transform: uppercase;
+            font-size: 0.9rem;
+            letter-spacing: 1px;
+        }
+        
+        .stat-icon {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            font-size: 1.5rem;
+            color: var(--primary-color);
+            opacity: 0.3;
+        }
 
-        /* --- EVENT CARDS --- */
+        /* --- SEARCH AND FILTERS --- */
+        .controls-section {
+            padding: 30px 0;
+            background: var(--surface-secondary-color);
+            margin-bottom: 40px;
+        }
+        
+        .search-bar {
+            display: flex;
+            align-items: center;
+            background: var(--surface-color);
+            border-radius: 25px;
+            padding: 15px 25px;
+            border: 2px solid var(--border-color);
+            margin-bottom: 30px;
+            transition: all 0.3s ease;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        
+        .search-bar:focus-within {
+            border-color: var(--primary-color);
+            box-shadow: 0 0 20px rgba(106, 17, 203, 0.2);
+        }
+        
+        .search-bar input {
+            flex: 1;
+            border: none;
+            background: transparent;
+            outline: none;
+            color: var(--text-color);
+            font-size: 1.1rem;
+            margin-left: 15px;
+        }
+        
+        .search-bar input::placeholder {
+            color: var(--text-muted-color);
+        }
+        
+        .search-icon {
+            color: var(--primary-color);
+            font-size: 1.2rem;
+        }
+        
+        .filter-buttons {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+        
+        .filter-btn {
+            padding: 12px 24px;
+            border-radius: 25px;
+            border: 2px solid var(--border-color);
+            background: var(--surface-color);
+            color: var(--text-color);
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-transform: capitalize;
+        }
+        
+        .filter-btn:hover, .filter-btn.active {
+            background: var(--gradient-primary);
+            color: white;
+            border-color: transparent;
+            transform: translateY(-2px);
+        }
+
+        /* --- TIMELINE VIEW --- */
+        .timeline-container {
+            position: relative;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 40px 0;
+        }
+        
+        .timeline-line {
+            position: absolute;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 4px;
+            height: 100%;
+            background: var(--gradient-primary);
+            border-radius: 2px;
+        }
+        
+        .timeline-item {
+            display: flex;
+            align-items: center;
+            margin-bottom: 60px;
+            position: relative;
+        }
+        
+        .timeline-item:nth-child(odd) .timeline-content {
+            margin-right: auto;
+            text-align: right;
+            padding-right: 40px;
+        }
+        
+        .timeline-item:nth-child(even) .timeline-content {
+            margin-left: auto;
+            text-align: left;
+            padding-left: 40px;
+        }
+        
+        .timeline-content {
+            background: var(--surface-color);
+            border-radius: 16px;
+            padding: 25px;
+            width: 45%;
+            border: 1px solid var(--border-color);
+            transition: all 0.3s ease;
+            position: relative;
+        }
+        
+        .timeline-content:hover {
+            transform: scale(1.02);
+            box-shadow: var(--card-shadow);
+        }
+        
+        .timeline-dot {
+            position: absolute;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 20px;
+            height: 20px;
+            background: var(--gradient-primary);
+            border-radius: 50%;
+            border: 4px solid var(--background-color);
+            z-index: 2;
+        }
+
+        /* --- ENHANCED EVENT CARDS --- */
         .items-grid {
             display: grid; gap: 30px;
-            grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+            grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
         }
+        
         .item-card {
-            background-color: var(--surface-color); border-radius: 12px;
+            background-color: var(--surface-color); border-radius: 20px;
             border: 1px solid var(--border-color);
             overflow: hidden; display: flex; flex-direction: column;
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
-            opacity: 0; animation: fadeIn 0.5s ease forwards;
+            transition: all 0.4s ease;
+            opacity: 0; animation: fadeInUp 0.6s ease forwards;
+            position: relative;
+            cursor: pointer;
         }
-        @keyframes fadeIn { to { opacity: 1; transform: translateY(0); } }
-        .item-card:hover { transform: translateY(-8px); box-shadow: var(--card-shadow); }
+        
+        @keyframes fadeInUp { 
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); } 
+        }
+        
+        .item-card:hover { 
+            transform: translateY(-12px) rotateX(5deg); 
+            box-shadow: 0 20px 40px rgba(0,0,0,0.15);
+        }
+        
+        .item-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 6px;
+            background: var(--gradient-primary);
+        }
+        
         .thumbnail-container {
-            position: relative; width: 100%; padding-top: 56.25%; /* 16:9 */
+            position: relative; width: 100%; padding-top: 56.25%;
             background-color: var(--surface-secondary-color); overflow: hidden;
         }
+        
         .thumbnail {
             position: absolute; top: 0; left: 0; width: 100%; height: 100%;
             object-fit: cover; transition: transform 0.5s ease;
             z-index: 2;
             cursor: pointer;
         }
-        .item-card:hover .thumbnail { transform: scale(1.05); }
+        
+        .item-card:hover .thumbnail { transform: scale(1.1); }
         
         /* Enhanced 3D-style placeholder */
         .empty-thumbnail {
@@ -288,11 +512,11 @@
         }
         
         .placeholder-3d {
-            width: 70px;
-            height: 70px;
+            width: 80px;
+            height: 80px;
             position: relative;
             transform-style: preserve-3d;
-            animation: float3d 6s ease-in-out infinite;
+            animation: float3d 8s ease-in-out infinite;
         }
         
         .placeholder-3d-face {
@@ -302,70 +526,201 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 2rem;
+            font-size: 2.2rem;
             background: var(--gradient-primary);
-            border-radius: 8px;
+            border-radius: 12px;
             color: white;
             backface-visibility: hidden;
-            box-shadow: 0 0 15px rgba(0,0,0,0.1);
+            box-shadow: 0 0 20px rgba(0,0,0,0.2);
         }
         
         .placeholder-3d-face:nth-child(1) {
-            transform: translateZ(35px);
+            transform: translateZ(40px);
         }
         
         .placeholder-3d-face:nth-child(2) {
-            transform: rotateY(180deg) translateZ(35px);
+            transform: rotateY(180deg) translateZ(40px);
         }
         
         .placeholder-3d-face:nth-child(3) {
-            transform: rotateY(90deg) translateZ(35px);
-            width: 70px;
+            transform: rotateY(90deg) translateZ(40px);
             background: rgba(67, 97, 238, 0.8);
         }
         
         .placeholder-3d-face:nth-child(4) {
-            transform: rotateY(-90deg) translateZ(35px);
-            width: 70px;
+            transform: rotateY(-90deg) translateZ(40px);
             background: rgba(58, 12, 163, 0.8);
         }
         
         @keyframes float3d {
             0%, 100% { transform: rotateY(0deg) rotateX(5deg) translateY(0); }
-            25% { transform: rotateY(90deg) rotateX(5deg) translateY(-8px); }
+            25% { transform: rotateY(90deg) rotateX(5deg) translateY(-12px); }
             50% { transform: rotateY(180deg) rotateX(5deg) translateY(0); }
-            75% { transform: rotateY(270deg) rotateX(5deg) translateY(-8px); }
+            75% { transform: rotateY(270deg) rotateX(5deg) translateY(-12px); }
         }
         
         .status-badge {
-            position: absolute; top: 12px; right: 12px; padding: 6px 12px;
-            border-radius: 9999px; font-size: 0.8rem; font-weight: 600;
-            color: white; z-index: 3;
+            position: absolute; top: 15px; right: 15px; padding: 8px 16px;
+            border-radius: 25px; font-size: 0.85rem; font-weight: 600;
+            color: white; z-index: 3; backdrop-filter: blur(10px);
         }
-        .status-badge.active { background-color: var(--success-color); }
-        .status-badge.inactive { background-color: var(--text-muted-color); }
-        .card-content { padding: 20px; flex-grow: 1; display: flex; flex-direction: column; }
-        .card-title { font-size: 1.3rem; font-weight: 600; margin-bottom: 12px; }
-        .card-description { font-size: 0.95rem; color: var(--text-muted-color); margin-bottom: 20px; flex-grow: 1; }
+        
+        .status-badge.active { 
+            background: linear-gradient(135deg, var(--success-color), #059669);
+            animation: pulse-glow 2s infinite;
+        }
+        
+        .status-badge.inactive { 
+            background: rgba(156, 163, 175, 0.8); 
+        }
+        
+        @keyframes pulse-glow {
+            0%, 100% { box-shadow: 0 0 15px rgba(16, 185, 129, 0.5); }
+            50% { box-shadow: 0 0 25px rgba(16, 185, 129, 0.8); }
+        }
+        
+        .countdown-timer {
+            position: absolute;
+            bottom: 15px;
+            left: 15px;
+            background: rgba(0,0,0,0.8);
+            color: white;
+            padding: 8px 12px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            backdrop-filter: blur(10px);
+            z-index: 3;
+        }
+        
+        .card-content { 
+            padding: 25px; flex-grow: 1; display: flex; flex-direction: column; 
+        }
+        
+        .card-title { 
+            font-size: 1.4rem; font-weight: 700; margin-bottom: 12px;
+            color: var(--text-color);
+        }
+        
+        .category-tag {
+            display: inline-block;
+            padding: 4px 12px;
+            border-radius: 15px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            margin-bottom: 15px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        
+        .category-technical { background: rgba(59, 130, 246, 0.1); color: var(--info-color); }
+        .category-cultural { background: rgba(236, 72, 153, 0.1); color: #ec4899; }
+        .category-sports { background: rgba(34, 197, 94, 0.1); color: var(--success-color); }
+        .category-workshop { background: rgba(245, 158, 11, 0.1); color: var(--warning-color); }
+        .category-seminar { background: rgba(139, 92, 246, 0.1); color: #8b5cf6; }
+        
+        .card-description { 
+            font-size: 1rem; color: var(--text-muted-color); 
+            margin-bottom: 20px; flex-grow: 1; line-height: 1.6;
+        }
+        
         .details-grid {
-            display: grid; gap: 10px; font-size: 0.9rem;
-            color: var(--text-muted-color); margin-bottom: 20px;
+            display: grid; gap: 12px; font-size: 0.95rem;
+            color: var(--text-muted-color); margin-bottom: 25px;
         }
-        .details-grid span { display: flex; align-items: center; gap: 10px; }
-        .card-footer { display: flex; justify-content: space-between; align-items: center; margin-top: auto; }
+        
+        .details-grid span { 
+            display: flex; align-items: center; gap: 12px;
+            padding: 8px 0;
+        }
+        
+        .card-footer { 
+            display: flex; justify-content: space-between; align-items: center; 
+            margin-top: auto; padding-top: 20px;
+            border-top: 1px solid var(--border-color);
+        }
+        
         .fee-badge {
-            padding: 6px 12px; border-radius: 8px;
-            font-weight: 600; font-size: 0.9rem;
+            padding: 8px 16px; border-radius: 20px;
+            font-weight: 700; font-size: 0.9rem;
+            display: flex; align-items: center; gap: 6px;
         }
-        .fee-badge.free { background-color: rgba(22, 163, 74, 0.1); color: var(--success-color); }
-        .fee-badge.paid { background-color: rgba(217, 119, 6, 0.1); color: var(--warning-color); }
+        
+        .fee-badge.free { 
+            background: rgba(22, 163, 74, 0.1); 
+            color: var(--success-color); 
+        }
+        
+        .fee-badge.paid { 
+            background: rgba(217, 119, 6, 0.1); 
+            color: var(--warning-color); 
+        }
+        
         .register-btn {
-            padding: 8px 16px; border-radius: 8px; font-weight: 500;
-            font-size: 0.9rem; background: var(--gradient-primary);
+            padding: 12px 24px; border-radius: 25px; font-weight: 600;
+            font-size: 0.95rem; background: var(--gradient-primary);
             color: white; text-decoration: none;
-            transition: transform 0.3s, box-shadow 0.3s;
+            transition: all 0.3s ease;
+            display: flex; align-items: center; gap: 8px;
         }
-        .register-btn:hover { transform: translateY(-2px); box-shadow: 0 4px 10px rgba(0,0,0,0.2); }
+        
+        .register-btn:hover { 
+            transform: translateY(-2px); 
+            box-shadow: 0 8px 25px rgba(106, 17, 203, 0.4);
+        }
+
+        /* --- FLOATING ACTION BUTTON --- */
+        .fab {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            width: 60px;
+            height: 60px;
+            background: var(--gradient-primary);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 1.5rem;
+            cursor: pointer;
+            box-shadow: 0 8px 25px rgba(0,0,0,0.3);
+            transition: all 0.3s ease;
+            z-index: 999;
+        }
+        
+        .fab:hover {
+            transform: scale(1.1);
+            box-shadow: 0 12px 35px rgba(0,0,0,0.4);
+        }
+
+        /* --- VIEW TOGGLE --- */
+        .view-toggle {
+            display: flex;
+            justify-content: center;
+            margin: 30px 0;
+            gap: 10px;
+        }
+        
+        .view-btn {
+            padding: 10px 20px;
+            border-radius: 25px;
+            border: 2px solid var(--border-color);
+            background: var(--surface-color);
+            color: var(--text-color);
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .view-btn.active {
+            background: var(--gradient-primary);
+            color: white;
+            border-color: transparent;
+        }
 
         /* --- IMAGE MODAL --- */
         .modal {
@@ -386,6 +741,7 @@
             max-height: 90%;
             margin: auto;
             display: block;
+            border-radius: 12px;
         }
         .close {
             position: absolute;
@@ -418,37 +774,14 @@
             .hamburger.active span:nth-child(2) { opacity: 0; }
             .hamburger.active span:nth-child(3) { transform: rotate(45deg) translate(-5px, -6px); }
             
-            .echo-loader {
-                width: 120px;
-                height: 120px;
-            }
-            
-            .echo-circle:nth-child(1) {
-                width: 120px;
-                height: 120px;
-            }
-            
-            .echo-circle:nth-child(2) {
-                width: 90px;
-                height: 90px;
-                top: 15px;
-                left: 15px;
-            }
-            
-            .echo-circle:nth-child(3) {
-                width: 60px;
-                height: 60px;
-                top: 30px;
-                left: 30px;
-            }
-            
-            .loader-text span {
-                font-size: 2rem;
-            }
-            
-            .progress-bar {
-                width: 200px;
-            }
+            .page-title { font-size: 2.5rem; }
+            .stats-dashboard { grid-template-columns: repeat(2, 1fr); }
+            .filter-buttons { justify-content: center; }
+            .timeline-line { display: none; }
+            .timeline-item { flex-direction: column; }
+            .timeline-content { width: 100%; text-align: center; padding: 20px; }
+            .items-grid { grid-template-columns: 1fr; }
+            .fab { bottom: 20px; right: 20px; }
         }
     </style>
 </head>
@@ -479,6 +812,11 @@
         <img class="modal-content" id="modalImage">
     </div>
 
+    <!-- Floating Action Button -->
+    <div class="fab" id="fabBtn">
+        <i class="fas fa-calendar-plus"></i>
+    </div>
+
     <div class="main-content">
         <nav class="navbar">
             <div class="container nav-container">
@@ -490,7 +828,6 @@
                     <li><a href="index.html" class="nav-link">Home</a></li>
                     <li><a href="core.html" class="nav-link">Core Team</a></li>
                     <li><a href="members.html" class="nav-link">Members</a></li>
-                    
                     <li><a href="events.html" class="nav-link active">Events</a></li>
                     <li><a href="gallery.html" class="nav-link">Gallery</a></li>
                     <li><a href="about.html" class="nav-link">About</a></li>
@@ -508,28 +845,57 @@
         <main>
             <section class="page-header">
                 <div class="container">
-                    <h1 class="page-title">Opportunities Hub</h1>
-                    <p class="page-subtitle">Explore upcoming and past events, hackathons, and workshops from our college and beyond.</p>
+                    <h1 class="page-title">🎯 Opportunities Hub</h1>
+                    <p class="page-subtitle">Discover amazing events, hackathons, and workshops to boost your skills and network!</p>
+                    
+                    <!-- Stats Dashboard -->
+                    <div class="stats-dashboard" id="stats-dashboard">
+                        <!-- Stats will be populated by JavaScript -->
+                    </div>
                 </div>
             </section>
 
-            <section class="section-container">
+            <!-- Search and Filters -->
+            <section class="controls-section">
                 <div class="container">
-                    <div class="section-header">
-                        <span class="section-icon"><i class="fas fa-trophy"></i></span>
-                        <h2 class="section-title">Events & Competitions</h2>
+                    <div class="search-bar">
+                        <i class="fas fa-search search-icon"></i>
+                        <input type="text" id="searchInput" placeholder="Search events, workshops, colleges...">
                     </div>
-                    <div class="items-grid" id="events-grid"></div>
+                    <div class="filter-buttons" id="filterButtons">
+                        <button class="filter-btn active" data-filter="all">All Events</button>
+                        <button class="filter-btn" data-filter="active">Active</button>
+                        <button class="filter-btn" data-filter="free">Free</button>
+                        <button class="filter-btn" data-filter="technical">Technical</button>
+                        <button class="filter-btn" data-filter="cultural">Cultural</button>
+                        <button class="filter-btn" data-filter="workshop">Workshops</button>
+                    </div>
                 </div>
             </section>
 
-            <section class="section-container">
+            <!-- View Toggle -->
+            <section class="view-toggle">
+                <button class="view-btn active" id="gridViewBtn" data-view="grid">
+                    <i class="fas fa-th"></i> Grid View
+                </button>
+                <button class="view-btn" id="timelineViewBtn" data-view="timeline">
+                    <i class="fas fa-timeline"></i> Timeline View
+                </button>
+            </section>
+
+            <!-- Grid View -->
+            <section class="section-container" id="gridView">
                 <div class="container">
-                    <div class="section-header">
-                        <span class="section-icon"><i class="fas fa-tools"></i></span>
-                        <h2 class="section-title">Workshops & Seminars</h2>
+                    <div class="items-grid" id="all-items-grid"></div>
+                </div>
+            </section>
+
+            <!-- Timeline View -->
+            <section class="section-container" id="timelineView" style="display: none;">
+                <div class="container">
+                    <div class="timeline-container" id="timeline-container">
+                        <!-- Timeline items will be populated by JavaScript -->
                     </div>
-                    <div class="items-grid" id="workshops-grid"></div>
                 </div>
             </section>
         </main>
@@ -537,131 +903,7 @@
 
     <script src="event_workshop_data.js"></script>
     <script>
-    document.addEventListener('DOMContentLoaded', () => {
-        // --- 1. PAGE LOADER ---
-        const loader = document.getElementById('loader');
-        setTimeout(() => {
-            if (loader) loader.classList.add('loader-hidden');
-        }, 2000); // 2 seconds
-
-        // --- 2. NAVBAR & THEME LOGIC ---
-        const themeBtn = document.getElementById('theme-btn');
-        if (themeBtn) {
-            const savedTheme = localStorage.getItem('echoTheme') || 'dark';
-            document.documentElement.setAttribute('data-theme', savedTheme);
-            themeBtn.textContent = savedTheme === 'dark' ? '🌙' : '☀️';
-            themeBtn.addEventListener('click', () => {
-                const newTheme = (document.documentElement.getAttribute('data-theme') || 'dark') === 'dark' ? 'light' : 'dark';
-                document.documentElement.setAttribute('data-theme', newTheme);
-                themeBtn.textContent = newTheme === 'dark' ? '🌙' : '☀️';
-                localStorage.setItem('echoTheme', newTheme);
-            });
-        }
-        const hamburger = document.getElementById('hamburger');
-        const navMenu = document.getElementById('nav-menu');
-        if (hamburger && navMenu) {
-            hamburger.addEventListener('click', () => {
-                hamburger.classList.toggle('active');
-                navMenu.classList.toggle('active');
-            });
-        }
-
-        // Image Modal Functionality
-        const modal = document.getElementById('imageModal');
-        const modalImg = document.getElementById('modalImage');
-        const closeBtn = document.getElementsByClassName('close')[0];
-
-        document.addEventListener('click', (event) => {
-            if (event.target.classList.contains('thumbnail')) {
-                modal.style.display = 'flex';
-                modalImg.src = event.target.src;
-            }
-        });
-
-        closeBtn.onclick = () => {
-            modal.style.display = 'none';
-        };
-
-        modal.onclick = (event) => {
-            if (event.target === modal) {
-                modal.style.display = 'none';
-            }
-        };
-
-        // --- 3. RENDER LOGIC ---
-        function renderItems(data, containerId, type) {
-            const container = document.getElementById(containerId);
-            if (!container) return;
-            const sortedData = data.sort((a, b) => b.id - a.id);
-            container.innerHTML = sortedData.map((item, index) => {
-                const formattedDate = new Date(item.date).toLocaleDateString('en-IN', { day: 'numeric', month: 'short', year: 'numeric' });
-                const isFree = item.fee.toLowerCase() === 'free';
-                const hasThumbnail = item.thumbnail && item.thumbnail.trim() !== '';
-                const defaultIcon = type === 'events' ? 'fas fa-trophy' : 'fas fa-tools';
-                
-                const thumbnailHTML = hasThumbnail
-                    ? `<img src="${item.thumbnail}" alt="${item.title}" class="thumbnail" loading="lazy" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">`
-                    : '';
-                
-                // --- WHATSAPP INTEGRATION ---
-                let footerHTML = `<span style="color: var(--text-muted-color); font-weight: 500;"><i class="fas fa-check-circle"></i> Completed</span>`;
-                if (item.status === 'Active') {
-                    const messageTemplate = `
-🎉 Welcome to the ECHO Club Registration! 🎉
-
-I would like to register for the following event:
-*Event Name:* ${item.title}
-
-Please fill out your details below:
------------------------------------
-*👤 Name:* *🌿 Branch:* *🎓 Year:* *📧 Email:* *👥 Team Name (if applicable):* -----------------------------------
-
-Looking forward to seeing you there!
-                    `.trim();
-
-                    const encodedMessage = encodeURIComponent(messageTemplate);
-                    const whatsappURL = `https://wa.me/919110687983?text=${encodedMessage}`;
-                    footerHTML = `<a href="${whatsappURL}" target="_blank" rel="noopener noreferrer" class="register-btn">Register <i class="fas fa-arrow-right"></i></a>`;
-                }
-                
-                return `
-                <div class="item-card" style="animation-delay: ${index * 100}ms">
-                    <div class="thumbnail-container">
-                        ${thumbnailHTML}
-                        <div class="empty-thumbnail" style="${hasThumbnail ? 'display: none;' : 'display: flex;'}">
-                            <div class="placeholder-3d">
-                                <div class="placeholder-3d-face"><i class="${defaultIcon}"></i></div>
-                                <div class="placeholder-3d-face"><i class="fas fa-calendar-alt"></i></div>
-                                <div class="placeholder-3d-face"></div>
-                                <div class="placeholder-3d-face"></div>
-                            </div>
-                        </div>
-                        <span class="status-badge ${item.status.toLowerCase()}">${item.status}</span>
-                    </div>
-                    <div class="card-content">
-                        <h3 class="card-title">${item.title}</h3>
-                        <p class="card-description">${item.description}</p>
-                        <div class="details-grid">
-                            <span><i class="fas fa-map-marker-alt fa-fw"></i> ${item.college}</span>
-                            <span><i class="fas fa-calendar-alt fa-fw"></i> ${formattedDate}</span>
-                            <span><i class="fas fa-clock fa-fw"></i> ${item.time}</span>
-                        </div>
-                        <div class="card-footer">
-                            <span class="fee-badge ${isFree ? 'free' : 'paid'}">
-                                ${isFree ? '<i class="fas fa-gift"></i>' : '<i class="fas fa-tag"></i>'} ${item.fee}
-                            </span>
-                            ${footerHTML}
-                        </div>
-                    </div>
-                </div>
-                `;
-            }).join('');
-        }
-
-        // --- 4. INITIALIZE PAGE ---
-        renderItems(eventsData, 'events-grid', 'events');
-        renderItems(workshopsData, 'workshops-grid', 'workshops');
-    });
+    
     </script>
 </body>
 </html>
