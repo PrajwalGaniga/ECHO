@@ -9,7 +9,7 @@ const coreTeam = [
         profilePic:"assets/images/core/profile_prajwal.png",
         phone:"+91 9110687983",
         email:"prajwalganiga06@gmail.com",
-        linkedin:"https://linkedin.com/in/arjunsharma"
+        linkedin:"https://www.linkedin.com/in/prajwalganiga/"
     },
     {
         id:2, 
@@ -20,7 +20,7 @@ const coreTeam = [
         profilePic:"assets/images/core/sanvi.jpg",
         phone:"+91 9074263305",
         email:"sanviiishettyyyy@gmail.com",
-        linkedin:"https://linkedin.com/in/priyapatel"
+        linkedin:"https://www.linkedin.com/in/sanvi-shetty-65386332a"
     },
 
 
@@ -33,8 +33,8 @@ const coreTeam = [
         category:"Operations & Management", 
         profilePic:"assets/images/core/ishu.jpg",
         phone:"+91 73385 32833",
-        email:"ishwarya9448@gmail.com",
-        linkedin:"https://linkedin.com/in/ananyagupta"
+        email:"ishwaryapoojaray@gmail.com",
+        linkedin:"https://www.linkedin.com/in/ishwarya-p-2671a232b"
     },
     {
         id:4, 
@@ -45,7 +45,7 @@ const coreTeam = [
         profilePic:"assets/images/core/varshini.jpg",
         phone:"+91 6361762421",
         email:"varshiniganiga35@gmail.com",
-        linkedin:"https://linkedin.com/in/sruthikrishnan"
+        linkedin:"https://www.linkedin.com/in/varshini-87237232b"
     },
     {
         id:5, 
