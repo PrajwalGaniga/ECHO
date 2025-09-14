@@ -22,7 +22,7 @@
             --primary-color: #4361ee;
             --secondary-color: #3a0ca3;
             --hero-overlay-color: rgba(28, 28, 30, 0.7);
-            --card-shadow: 0 4px S15px rgba(0, 0, 0, 0.08);
+            --card-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
             --gradient-text: linear-gradient(90deg, var(--primary-color), var(--secondary-color));
             --gradient-primary: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
             --nav-background: rgba(255, 255, 255, 0.8);
@@ -112,7 +112,7 @@
             border-radius: 8px; font-family: var(--code-font);
             text-align: left; backdrop-filter: blur(5px);
         }
-        
+
         /* --- GENERAL SECTION STYLING --- */
         .section { padding: 80px 0; }
         .section:nth-child(even) { background-color: var(--surface-secondary-color); }
@@ -128,14 +128,16 @@
 
         /* --- INTRO SECTION --- */
         .intro-content { text-align: center; max-width: 800px; margin: 0 auto; }
-        .intro-content h2 { font-size: 2.2rem; margin-bottom: 30px; color: var(--secondary-color); }
+        .intro-content h2 { font-size: 2.2rem; margin-bottom: 30px; background: var(--gradient-text); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
         .intro-content p { font-size: 1.1rem; margin-bottom: 20px; color: var(--text-muted-color); }
         .tech-tags { display: flex; flex-wrap: wrap; justify-content: center; gap: 10px; margin-top: 40px; }
         .tech-tag {
             background: var(--surface-secondary-color); padding: 8px 18px;
             border-radius: 50px; font-size: 0.9rem; font-weight: 500;
             color: var(--text-muted-color); border: 1px solid var(--border-color);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
         }
+        .tech-tag:hover { transform: scale(1.1); box-shadow: 0 2px 8px rgba(0,0,0,0.1); }
 
         /* --- CARD GRIDS & CARDS --- */
         .card-grid {
@@ -146,17 +148,19 @@
             background: var(--surface-color); padding: 30px;
             border-radius: 12px; box-shadow: 0 5px 15px rgba(0,0,0,0.05);
             border: 1px solid var(--border-color);
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
         }
-        .card:hover { transform: translateY(-8px); box-shadow: var(--card-shadow); }
-        
+        .card:hover { transform: translateY(-8px); box-shadow: var(--card-shadow); border-color: var(--primary-color); }
+
         /* Team Structure Cards */
         .category-header { display: flex; align-items: center; margin-bottom: 20px; gap: 15px; }
         .category-icon {
             width: 50px; height: 50px; background: var(--surface-secondary-color);
             border-radius: 50%; display: flex; align-items: center; justify-content: center;
             color: var(--primary-color); font-size: 1.5rem; flex-shrink: 0;
+            transition: transform 0.3s ease;
         }
+        .card:hover .category-icon { transform: rotate(360deg); }
         .category-title { font-size: 1.5rem; font-weight: 600; color: var(--text-color); }
         .role-list { list-style: none; }
         .role-item { padding: 12px 0; border-bottom: 1px solid var(--border-color); display: flex; align-items: center; }
@@ -165,7 +169,8 @@
 
         /* Features, Awards, Media Cards */
         .info-card { text-align: center; }
-        .info-icon { font-size: 2.5rem; margin-bottom: 20px; }
+        .info-icon { font-size: 2.5rem; margin-bottom: 20px; transition: color 0.3s ease; }
+        .info-card:hover .info-icon { color: var(--secondary-color); }
         .info-card h3 { font-size: 1.3rem; margin-bottom: 15px; font-weight: 600; }
         .info-card p { color: var(--text-muted-color); }
         .feature-icon { color: var(--primary-color); }
@@ -189,8 +194,8 @@
             border-radius: 50%; color: var(--text-muted-color); text-decoration: none;
             transition: all 0.3s ease;
         }
-        .social-link:hover { background: var(--primary-color); color: white; border-color: var(--primary-color); }
-        
+        .social-link:hover { background: var(--primary-color); color: white; border-color: var(--primary-color); transform: rotate(360deg); }
+
         /* --- RESPONSIVE --- */
         @media (max-width: 768px) {
             main { padding-top: 73px; }
@@ -221,9 +226,8 @@
             </a>
             <ul class="nav-menu" id="nav-menu">
                 <li><a href="index.html" class="nav-link">Home</a></li>
-                 <li><a href="core.html" class="nav-link">Core Team</a></li>
+                <li><a href="core.html" class="nav-link">Core Team</a></li>
                 <li><a href="members.html" class="nav-link">Members</a></li>
-               
                 <li><a href="events.html" class="nav-link">Events</a></li>
                 <li><a href="gallery.html" class="nav-link">Gallery</a></li>
                 <li><a href="about.html" class="nav-link active">About</a></li>
@@ -237,7 +241,7 @@
             </div>
         </div>
     </nav>
-    
+
     <main>
         <header class="page-header">
             <div class="container">
@@ -253,27 +257,51 @@
                 </div>
             </div>
         </header>
-        
+
+        <section class="section">
+            <div class="container intro-content">
+                <h2 data-aos="fade-up">Introduction</h2>
+                <p data-aos="fade-up" data-aos-delay="100">ECHO is a vibrant, student-led club for CSD and ISE students that fosters collaboration, creativity, and technical growth. The club promotes sharing knowledge and innovation across computing, hacking, design, AI/ML, and culture. Our goal is to create an engaging environment where ideas resonate and expand widely, impacting both campus and beyond.</p>
+                <div class="tech-tags" data-aos="fade-up" data-aos-delay="200">
+                    <span class="tech-tag">AI/ML</span>
+                    <span class="tech-tag">Web Dev</span>
+                    <span class="tech-tag">Cybersecurity</span>
+                    <span class="tech-tag">Hackathons</span>
+                    <span class="tech-tag">UI/UX Design</span>
+                    <span class="tech-tag">Cultural Events</span>
+                </div>
+            </div>
+        </section>
+
         <section class="section">
             <div class="container">
-                <div class="intro-content">
-                    <h2 data-aos="fade-up">What is ECHO?</h2>
-                    [cite_start]<p data-aos="fade-up" data-aos-delay="100">ECHO is the ultimate student-driven club of CSD + ISE! [cite: 3] [cite_start]We are here to code, design, hack, innovate, host cultural events, and most importantly - make learning fun and impactful. [cite: 4] [cite_start]From AI/ML workshops to Hackathons, from Memes on Insta to Professional LinkedIn posts, ECHO is where ideas resonate and students shine! [cite: 5]</p>
-                    <div class="tech-tags" data-aos="fade-up" data-aos-delay="200">
-                        <span class="tech-tag">AI/ML</span>
-                        <span class="tech-tag">Web Dev</span>
-                        <span class="tech-tag">Cybersecurity</span>
-                        <span class="tech-tag">Hackathons</span>
-                        <span class="tech-tag">UI/UX Design</span>
-                        <span class="tech-tag">Cultural Events</span>
+                <h2 class="section-title" data-aos="fade-up">Vision & Mission</h2>
+                <div class="card-grid">
+                    <div class="card" data-aos="fade-up" data-aos-delay="100">
+                        <div class="category-header">
+                            <div class="category-icon"><i class="fas fa-eye"></i></div>
+                            <h3 class="category-title">Vision</h3>
+                        </div>
+                        <p>To be a leading community empowering students through technology, creativity, and culture, where every idea finds room to grow and inspire.</p>
+                    </div>
+                    <div class="card" data-aos="fade-up" data-aos-delay="200">
+                        <div class="category-header">
+                            <div class="category-icon"><i class="fas fa-bullseye"></i></div>
+                            <h3 class="category-title">Mission</h3>
+                        </div>
+                        <ul class="role-list">
+                            <li class="role-item">Facilitate skill development through projects, hackathons, and workshops.</li>
+                            <li class="role-item">Encourage creative expression alongside technical expertise.</li>
+                            <li class="role-item">Build leadership, communication, and industry connections for holistic growth.</li>
+                        </ul>
                     </div>
                 </div>
             </div>
         </section>
-        
+
         <section class="section">
             <div class="container">
-                <h2 class="section-title" data-aos="fade-up">Core Team Structure</h2>
+                <h2 class="section-title" data-aos="fade-up">Organization Structure</h2>
                 <div class="card-grid">
                     <div class="card" data-aos="fade-up" data-aos-delay="100">
                         <div class="category-header">
@@ -281,19 +309,21 @@
                             <h3 class="category-title">Leadership</h3>
                         </div>
                         <ul class="role-list">
-                            <li class="role-item"><span class="role-icon"><i class="fas fa-star"></i></span>President (Core Lead)</li>
-                            <li class="role-item"><span class="role-icon"><i class="fas fa-star"></i></span>Vice President (Core Co-Lead)</li>
+                            <li class="role-item"><span class="role-icon"><i class="fas fa-star"></i></span>President (Core Lead) – The captain of the ship, represents the club everywhere🚢.</li>
+                            <li class="role-item"><span class="role-icon"><i class="fas fa-star"></i></span>Vice President (Core Co-Lead) – The vice-captain ensuring smooth sailing ⛵.</li>
                         </ul>
                     </div>
                     <div class="card" data-aos="fade-up" data-aos-delay="200">
                         <div class="category-header">
                             <div class="category-icon"><i class="fas fa-cogs"></i></div>
-                            <h3 class="category-title">Operations</h3>
+                            <h3 class="category-title">Operations & Management</h3>
                         </div>
                         <ul class="role-list">
-                            <li class="role-item"><span class="role-icon"><i class="fas fa-star"></i></span>General & Joint Secretary</li>
-                            <li class="role-item"><span class="role-icon"><i class="fas fa-star"></i></span>Treasurer & Finance Co-Lead</li>
-                             <li class="role-item"><span class="role-icon"><i class="fas fa-star"></i></span>Speaker</li>
+                            <li class="role-item"><span class="role-icon"><i class="fas fa-star"></i></span>General Secretary – Documentation, scheduling, coordination 📑.</li>
+                            <li class="role-item"><span class="role-icon"><i class="fas fa-star"></i></span>Joint Secretary – Assists secretary, keeps everyone on track 🧭.</li>
+                            <li class="role-item"><span class="role-icon"><i class="fas fa-star"></i></span>Treasurer – Manages money, sponsorships, budgeting 💰.</li>
+                            <li class="role-item"><span class="role-icon"><i class="fas fa-star"></i></span>Finance Co-Lead – Assists treasurer, keeps receipts safe 🧾.</li>
+                            <li class="role-item"><span class="role-icon"><i class="fas fa-star"></i></span>Speaker – One who will be a active speaker for all the events.</li>
                         </ul>
                     </div>
                     <div class="card" data-aos="fade-up" data-aos-delay="300">
@@ -302,9 +332,9 @@
                             <h3 class="category-title">Technical Divisions</h3>
                         </div>
                         <ul class="role-list">
-                            <li class="role-item"><span class="role-icon"><i class="fas fa-star"></i></span>Website & Tech Infrastructure</li>
-                            <li class="role-item"><span class="role-icon"><i class="fas fa-star"></i></span>AI/ML/GenAI Division</li>
-                            <li class="role-item"><span class="role-icon"><i class="fas fa-star"></i></span>Hackathon & Project Division</li>
+                            <li class="role-item"><span class="role-icon"><i class="fas fa-star"></i></span>Website & Tech Infrastructure – Our web wizards 🌐.</li>
+                            <li class="role-item"><span class="role-icon"><i class="fas fa-star"></i></span>AI / ML / GenAI Division – Data, models, and the magic of AI 🤖.</li>
+                            <li class="role-item"><span class="role-icon"><i class="fas fa-star"></i></span>Hackathon & Project Division – Coding marathons, project mentors 🏆.</li>
                         </ul>
                     </div>
                     <div class="card" data-aos="fade-up" data-aos-delay="400">
@@ -312,40 +342,94 @@
                             <div class="category-icon"><i class="fas fa-paint-brush"></i></div>
                             <h3 class="category-title">Creative & Media</h3>
                         </div>
-                         <ul class="role-list">
-                            <li class="role-item"><span class="role-icon"><i class="fas fa-star"></i></span>Design & Graphics Division</li>
-                            <li class="role-item"><span class="role-icon"><i class="fas fa-star"></i></span>Social Media & Content Division</li>
-                             <li class="role-item"><span class="role-icon"><i class="fas fa-star"></i></span>Cultural & Event Division</li>
+                        <ul class="role-list">
+                            <li class="role-item"><span class="role-icon"><i class="fas fa-star"></i></span>Design & Graphics Division – Posters, branding, creative magic ✨.</li>
+                            <li class="role-item"><span class="role-icon"><i class="fas fa-star"></i></span>Social Media & Content Division – Insta reels 📸, YouTube edits 🎥, LinkedIn updates 💼.</li>
+                            <li class="role-item"><span class="role-icon"><i class="fas fa-star"></i></span>Cultural & Event Division – Fun, cultural fests, and vibes 🎶.</li>
+                        </ul>
+                    </div>
+                    <div class="card" data-aos="fade-up" data-aos-delay="500">
+                        <div class="category-header">
+                            <div class="category-icon"><i class="fas fa-bullhorn"></i></div>
+                            <h3 class="category-title">Outreach & Growth</h3>
+                        </div>
+                        <ul class="role-list">
+                            <li class="role-item"><span class="role-icon"><i class="fas fa-star"></i></span>Workshops & Learning Division – Organizes technical sessions 📚.</li>
+                            <li class="role-item"><span class="role-icon"><i class="fas fa-star"></i></span>PR & Outreach Division – Collabs, alumni, and industry connects 🤝.</li>
                         </ul>
                     </div>
                 </div>
             </div>
         </section>
-        
+
         <section class="section">
             <div class="container">
-                <h2 class="section-title" data-aos="fade-up">Member Benefits & Features</h2>
+                <h2 class="section-title" data-aos="fade-up">Member Benefits</h2>
+                <div class="card-grid">
+                    <div class="card info-card" data-aos="fade-up" data-aos-delay="100">
+                        <div class="info-icon feature-icon"><i class="fas fa-certificate"></i></div>
+                        <h3>Core Members</h3>
+                        <p>Leadership certificates, priority at events, exclusive projects, internship perks.</p>
+                    </div>
+                    <div class="card info-card" data-aos="fade-up" data-aos-delay="200">
+                        <div class="info-icon feature-icon"><i class="fas fa-users"></i></div>
+                        <h3>General Members</h3>
+                        <p>Free/discounted workshops, hackathons, peer-to-peer learning, and fun community!</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="section">
+            <div class="container">
+                <h2 class="section-title" data-aos="fade-up">Special Features</h2>
                 <div class="card-grid">
                     <div class="card info-card" data-aos="fade-up" data-aos-delay="100">
                         <div class="info-icon feature-icon"><i class="fas fa-trophy"></i></div>
                         <h3>Competition Reimbursement</h3>
-                        [cite_start]<p>Win external competitions and get 50% of your registration fee reimbursed! [cite: 32]</p>
+                        <p>Win external competitions → Get 50% of your registration fee reimbursed!</p>
                     </div>
                     <div class="card info-card" data-aos="fade-up" data-aos-delay="200">
-                        <div class="info-icon feature-icon"><i class="fas fa-lightbulb"></i></div>
-                        <h3>Project Incubation</h3>
-                        <p>Have an idea? [cite_start]Our club mentors will help you build it from the ground up. [cite: 34]</p>
+                        <div class="info-icon feature-icon"><i class="fas fa-medal"></i></div>
+                        <h3>Skill Badges</h3>
+                        <p>Collect badges for hackathons & workshops.</p>
                     </div>
                     <div class="card info-card" data-aos="fade-up" data-aos-delay="300">
                         <div class="info-icon feature-icon"><i class="fas fa-rocket"></i></div>
-                        <h3>Hackathon Booster Pack</h3>
-                        [cite_start]<p>Get exclusive prep sessions and resources before you head into the real battle. [cite: 39]</p>
+                        <h3>Project Incubation</h3>
+                        <p>Club mentors help build your ideas.</p>
                     </div>
                     <div class="card info-card" data-aos="fade-up" data-aos-delay="400">
-                        <div class="info-icon feature-icon"><i class="fas fa-certificate"></i></div>
-                        <h3>Core Member Perks</h3>
-                        [cite_start]<p>Receive leadership certificates, event priority, and exclusive internship perks. [cite: 26]</p>
+                        <div class="info-icon feature-icon"><i class="fas fa-chalkboard-teacher"></i></div>
+                        <h3>Workshop Teaching</h3>
+                        <p>Conduct a workshop & get special recognition.</p>
                     </div>
+                    <div class="card info-card" data-aos="fade-up" data-aos-delay="500">
+                        <div class="info-icon feature-icon"><i class="fas fa-bolt"></i></div>
+                        <h3>Hackathon Booster Pack</h3>
+                        <p>Prep before the real battle.</p>
+                    </div>
+                    <div class="card info-card" data-aos="fade-up" data-aos-delay="600">
+                        <div class="info-icon feature-icon"><i class="fas fa-network-wired"></i></div>
+                        <h3>Alumni Connect</h3>
+                        <p>Learn from seniors & industry experts.</p>
+                    </div>
+                    <div class="card info-card" data-aos="fade-up" data-aos-delay="700">
+                        <div class="info-icon feature-icon"><i class="fas fa-party-horn"></i></div>
+                        <h3>ECHO Fest</h3>
+                        <p>Annual showcase of projects, talent & culture.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="section">
+            <div class="container">
+                <h2 class="section-title" data-aos="fade-up">Financial Policy</h2>
+                <div class="intro-content">
+                    <p data-aos="fade-up" data-aos-delay="100">No entry fees; workshop fees post-completion (₹1-₹50, participant benefit-based).</p>
+                    <p data-aos="fade-up" data-aos-delay="200">For club services to outsiders (e.g., flyer design): 30% fees to club fund, 70% to service providers.</p>
+                    <p data-aos="fade-up" data-aos-delay="300">Funds spent on events, infrastructure, sponsorships, and community growth.</p>
                 </div>
             </div>
         </section>
@@ -357,24 +441,54 @@
                     <div class="card info-card" data-aos="fade-up" data-aos-delay="100">
                         <div class="info-icon award-icon"><i class="fas fa-chalkboard-teacher"></i></div>
                         <h3>Workshop Excellence</h3>
-                        [cite_start]<p>For the best student trainers. [cite: 45]</p>
+                        <p>For the best student trainers.</p>
                     </div>
-                     <div class="card info-card" data-aos="fade-up" data-aos-delay="200">
+                    <div class="card info-card" data-aos="fade-up" data-aos-delay="200">
                         <div class="info-icon award-icon"><i class="fas fa-tasks"></i></div>
-                        <h3>Organizer's Award</h3>
-                        [cite_start]<p>For event managers. [cite: 46]</p>
+                        <h3>Organizer’s Award</h3>
+                        <p>For event managers.</p>
                     </div>
                     <div class="card info-card" data-aos="fade-up" data-aos-delay="300">
                         <div class="info-icon award-icon"><i class="fas fa-shield-alt"></i></div>
                         <h3>Rolling Shield</h3>
-                        [cite_start]<p>Most active member of the semester. [cite: 47]</p>
+                        <p>Most active member of the semester.</p>
                     </div>
                     <div class="card info-card" data-aos="fade-up" data-aos-delay="400">
                         <div class="info-icon award-icon"><i class="fas fa-award"></i></div>
                         <h3>ECHO Excellence</h3>
-                        [cite_start]<p>For top contributors. [cite: 48, 49]</p>
+                        <p>For top contributors.</p>
                     </div>
                 </div>
+            </div>
+        </section>
+
+        <section class="section">
+            <div class="container">
+                <h2 class="section-title" data-aos="fade-up">Media & Documentation</h2>
+                <div class="card-grid" style="grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));">
+                    <div class="card info-card" data-aos="fade-up" data-aos-delay="100">
+                        <div class="info-icon media-instagram"><i class="fab fa-instagram"></i></div>
+                        <h3>Instagram</h3>
+                        <p>Reels, stories, posters.</p>
+                    </div>
+                    <div class="card info-card" data-aos="fade-up" data-aos-delay="200">
+                        <div class="info-icon media-youtube"><i class="fab fa-youtube"></i></div>
+                        <h3>YouTube</h3>
+                        <p>Workshop uploads, highlights.</p>
+                    </div>
+                    <div class="card info-card" data-aos="fade-up" data-aos-delay="300">
+                        <div class="info-icon media-website"><i class="fas fa-globe"></i></div>
+                        <h3>Website</h3>
+                        <p>Blogs, event reports, announcements.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="section">
+            <div class="container intro-content">
+                <h2 data-aos="fade-up">Conclusion</h2>
+                <p data-aos="fade-up" data-aos-delay="100">ECHO is set to cultivate a thriving community of innovators and learners. We seek institutional recognition to enable sustained growth and opportunity, making every member’s ideas truly travel farther. ✨ ECHO – Excellence in Computing, Hacking, and Operations ✨</p>
             </div>
         </section>
 
@@ -395,7 +509,7 @@
             </div>
         </footer>
     </main>
-    
+
     <script src="https://unpkg.com/aos@next/dist/aos.js"></script>
     <script>
     document.addEventListener('DOMContentLoaded', () => {

@@ -9,6 +9,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <script type="module" src="https://unpkg.com/@splinetool/viewer@1.10.57/build/spline-viewer.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
     
     <style>
         /* Internal CSS for all styling */
@@ -49,6 +50,17 @@
             transition: background-color 0.3s, color 0.3s;
         }
         .container { max-width: 1200px; margin: 0 auto; padding: 0 20px; }
+
+        /* Three.js Background Canvas */
+        #three-bg {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            opacity: 0.3;
+        }
 
         /* --- ENHANCED PAGE LOADER --- */
         .loader {
@@ -398,6 +410,27 @@
         }
         .tag-event { background: var(--secondary-color); }
         .tag-workshop { background: var(--primary-color); }
+        
+        /* Know More Button */
+        .card-button {
+            align-self: flex-start;
+            padding: 8px 16px;
+            background: transparent;
+            border: 2px solid var(--primary-color);
+            color: var(--primary-color);
+            border-radius: 20px;
+            font-size: 0.9rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin-top: 10px;
+        }
+        
+        .card-button:hover {
+            background: var(--primary-color);
+            color: white;
+            transform: translateY(-2px);
+        }
 
         /* --- IMAGE MODAL --- */
         .modal {
@@ -577,6 +610,8 @@
     </style>
 </head>
 <body>
+    <!-- Three.js Background Canvas -->
+    <canvas id="three-bg"></canvas>
 
     <div class="loader" id="loader">
         <div class="loader-content">
@@ -647,9 +682,9 @@
                 
                 <!-- Right Spline -->
                 
-                <div class="spline-content">
-                    <script type="module" src="https://unpkg.com/@splinetool/viewer@1.10.57/build/spline-viewer.js"></script>
-<spline-viewer url="https://prod.spline.design/qsmHmr9c2Sxdibxp/scene.splinecode"></spline-viewer>
+                <div class="spline-container">
+                    <spline-viewer url="https://prod.spline.design/qsmHmr9c2Sxdibxp/scene.splinecode"></spline-viewer>
+                    <div class="watermark-cover"></div>
                 </div>
             </section>
 
@@ -661,7 +696,7 @@
             </section>
             
             <section class="section" id="member-spotlight">
-                 <div class="container">
+                <div class="container">
                     <h2 class="section-title">Top Active Member of the Month</h2>
                     <div id="active-member-container"></div>
                 </div>
@@ -670,8 +705,99 @@
     </div>
 
     <script>
+        // --- THREE.JS BACKGROUND SETUP ---
+        function initThreeBackground() {
+            const canvas = document.getElementById('three-bg');
+            const scene = new THREE.Scene();
+            const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+            const renderer = new THREE.WebGLRenderer({ canvas, alpha: true });
+            
+            renderer.setSize(window.innerWidth, window.innerHeight);
+            
+            // Create particles
+            const particlesGeometry = new THREE.BufferGeometry();
+            const particlesCount = 2000;
+            
+            const posArray = new Float32Array(particlesCount * 3);
+            const colorArray = new Float32Array(particlesCount * 3);
+            
+            for (let i = 0; i < particlesCount * 3; i++) {
+                posArray[i] = (Math.random() - 0.5) * 10;
+                colorArray[i] = Math.random();
+            }
+            
+            particlesGeometry.setAttribute('position', new THREE.BufferAttribute(posArray, 3));
+            particlesGeometry.setAttribute('color', new THREE.BufferAttribute(colorArray, 3));
+            
+            // Create material with theme-aware colors
+            const getThemeColors = () => {
+                return document.documentElement.getAttribute('data-theme') === 'dark' 
+                    ? { primary: 0x6a11cb, secondary: 0x2575fc } 
+                    : { primary: 0x4361ee, secondary: 0x3a0ca3 };
+            };
+            
+            const particlesMaterial = new THREE.PointsMaterial({
+                size: 0.05,
+                vertexColors: true,
+                blending: THREE.AdditiveBlending,
+                transparent: true
+            });
+            
+            const particlesMesh = new THREE.Points(particlesGeometry, particlesMaterial);
+            scene.add(particlesMesh);
+            
+            camera.position.z = 5;
+            
+            // Mouse movement effect
+            let mouseX = 0;
+            let mouseY = 0;
+            
+            document.addEventListener('mousemove', (event) => {
+                mouseX = (event.clientX / window.innerWidth) * 2 - 1;
+                mouseY = -(event.clientY / window.innerHeight) * 2 + 1;
+            });
+            
+            // Animation
+            function animate() {
+                requestAnimationFrame(animate);
+                
+                particlesMesh.rotation.x += 0.0005;
+                particlesMesh.rotation.y += 0.0005;
+                
+                // Apply mouse movement effect
+                camera.position.x += (mouseX * 2 - camera.position.x) * 0.01;
+                camera.position.y += (mouseY * 2 - camera.position.y) * 0.01;
+                camera.lookAt(scene.position);
+                
+                renderer.render(scene, camera);
+            }
+            
+            animate();
+            
+            // Handle window resize
+            window.addEventListener('resize', () => {
+                camera.aspect = window.innerWidth / window.innerHeight;
+                camera.updateProjectionMatrix();
+                renderer.setSize(window.innerWidth, window.innerHeight);
+            });
+            
+            // Update colors when theme changes
+            const observer = new MutationObserver(() => {
+                const colors = getThemeColors();
+                particlesMaterial.color = new THREE.Color(colors.primary);
+            });
+            
+            observer.observe(document.documentElement, { 
+                attributes: true, 
+                attributeFilter: ['data-theme'] 
+            });
+        }
+
         // --- LOADER, NAV, AND THEME SCRIPT ---
         document.addEventListener('DOMContentLoaded', () => {
+            // Initialize Three.js background
+            initThreeBackground();
+            
             // Page Loader - now set to 5 seconds
             const loader = document.getElementById('loader');
             setTimeout(() => {
@@ -758,7 +884,7 @@
         // --- DYNAMIC CONTENT SCRIPT ---
         const eventsData = [
             { id: 4, title: 'Smart Inida Hackathon Hackathon 2025', description: 'A national-level event focused on solving real-world problems using technology. Open to all students.', thumbnail: 'assets/images/events/event/sih.jpg' }
-            ]
+        ];
         const workshopsData = [
             { id: 4, title: 'Dhaarini Academy', description: 'Build your knowledge in Machine learning', thumbnail: 'assets/images/events/workshop/dhaarini.jpg' },
         ];
@@ -772,7 +898,7 @@
             const announcementsList = document.getElementById('announcements-list');
             const announcementsToShow = [
                 {...eventsData[0], type: 'Event'},
-                {...eventsData[1], type: 'Event'},
+                
                 {...workshopsData[0], type: 'Workshop'}
             ];
             
@@ -792,6 +918,7 @@
                             <h3 class="card-title">${item.title}</h3>
                             <p class="card-description">${item.description}</p>
                             <span class="card-tag ${tagClass}">${item.type}</span>
+                            <button class="card-button" onclick="window.location.href='events.html'">Know More</button>
                         </div>
                     </div>
                 `;

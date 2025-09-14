@@ -518,7 +518,7 @@ let members = [
         id: 34,
         name: "Harshini P K",
         usn: "4SN23IS007",
-        profilePic: "assets/images/members/23/aswitha.jpg",
+        profilePic: "assets/images/members/23/harshini.jpg",
         skills: ["Python", "Java", "HTML/CSS"],
         hobbies: ["Cooking", "Music", "Traveling", "Sports (General)", "Dancing", "Hiking/Trekking", "Movies/TV Shows"],
         isCore: true,
