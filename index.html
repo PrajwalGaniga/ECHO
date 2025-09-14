@@ -305,6 +305,7 @@
             overflow: hidden;
             border-radius: 12px;
             margin: 20px;
+            margin-top: 30px;
         }
         
         spline-viewer {
@@ -566,7 +567,7 @@
         <nav class="navbar">
             <div class="container nav-container">
                 <a href="index.html" class="nav-logo">
-                    <img src="\ECHO\logo.png" alt="ECHO Logo" class="logo-img">
+                    <img src="logo.png" alt="ECHO Logo" class="logo-img">
                     <span class="logo-text">ECHO</span>
                 </a>
                 <ul class="nav-menu" id="nav-menu">
@@ -602,8 +603,10 @@
                 </div>
                 
                 <!-- Right Spline -->
-                <div class="spline-container">
-                    <spline-viewer url="https://prod.spline.design/YJ8luRuP8Dex0L6U/scene.splinecode"></spline-viewer>
+                
+                <div class="spline-content">
+                    <script type="module" src="https://unpkg.com/@splinetool/viewer@1.10.57/build/spline-viewer.js"></script>
+<spline-viewer url="https://prod.spline.design/qsmHmr9c2Sxdibxp/scene.splinecode"></spline-viewer>
                 </div>
             </section>
 
