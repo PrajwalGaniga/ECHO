@@ -1,4 +1,4 @@
-const defaultProfilePic = 'assets/images/core/def.png';
+const defaultProfilePic = 'assets/images/members/23/def.png';
 let members = [
     {id:1,name:"Prajwal",usn:"4SN23CG009",profilePic:"assets/images/members/23/profile_prajwal.png",skills:["Python","AI/ML","React","Deep Learning","WebDevelopment","Mongo DB"],hobbies:["Sports","Gaming"],isCore:true,currentYear:"3rd Year",phone:"+91 9110687983",email:"prajwalganiga06@gmail.com",linkedin:"https://www.linkedin.com/in/prajwalganiga/",eventsJoined:4,workshopsJoined:3,eventsConducted:2,workshopsConducted:1},
     {id:2,name:"Sanvi S Shetty",usn:"4SN23IS024",profilePic:"assets/images/members/23/sanvi.jpg",skills:["JavaScript","UI/UX","React"],hobbies:["Photography","Reading"],isCore:true,currentYear:"3rd Year",phone:"+91 9074263305",email:"sanviiishettyyyy@gmail.com",linkedin:"https://www.linkedin.com/in/sanvi-shetty-65386332a",eventsJoined:3,workshopsJoined:2,eventsConducted:2,workshopsConducted:0},

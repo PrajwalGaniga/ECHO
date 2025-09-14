@@ -1,3 +1,4 @@
+const defaultProfilePic = 'assets/images/members/23/def.png';
 const coreTeam = [
     // Leadership
     {
