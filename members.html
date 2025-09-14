@@ -8,6 +8,10 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&family=Roboto+Mono:wght@400;500&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- AOS for animations -->
+    <link rel="stylesheet" href="https://unpkg.com/aos@next/dist/aos.css" />
+    <!-- Hover.css for hover effects -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/hover.css/2.3.1/css/hover-min.css">
 
     <style>
         /* --- THEME & COLOR VARIABLES --- */
@@ -146,15 +150,9 @@
             overflow: hidden;
             transition: transform 0.3s ease, box-shadow 0.3s ease;
             position: relative; 
-            animation: fadeIn 0.5s ease forwards; 
             opacity: 0;
             box-shadow: var(--card-shadow);
             border: none;
-        }
-        @keyframes fadeIn { to { opacity: 1; transform: translateY(0); } }
-        .member-card:hover { 
-            transform: translateY(-8px) scale(1.02); 
-            box-shadow: 0 12px 28px rgba(0, 0, 0, 0.2);
         }
         .member-card.is-core { 
             box-shadow: 0 0 20px var(--core-member-glow);
@@ -195,10 +193,6 @@
             object-fit: cover;
             border: 4px solid var(--primary-color);
             transition: all 0.3s ease;
-        }
-        .member-card:hover .member-avatar img {
-            border-color: var(--secondary-color);
-            transform: scale(1.05);
         }
         .member-name { 
             font-size: 1.3rem; 
@@ -557,8 +551,19 @@
     </div>
 
     <script src="members_data.js"></script>
+    <!-- Vanilla Tilt.js for 3D tilt effects -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/vanilla-tilt/1.7.0/vanilla-tilt.min.js"></script>
+    <!-- AOS Script -->
+    <script src="https://unpkg.com/aos@next/dist/aos.js"></script>
     <script>
     document.addEventListener('DOMContentLoaded', () => {
+        // Initialize AOS
+        AOS.init({
+            duration: 800,
+            once: true,
+            offset: 50
+        });
+
         // --- 1. INITIAL SETUP & DOM ELEMENTS ---
         const searchInput = document.getElementById('search-input');
         const yearFilter = document.getElementById('year-filter');
@@ -647,7 +652,7 @@
             const paginatedItems = filteredList.slice((currentPage - 1) * itemsPerPage, currentPage * itemsPerPage);
 
             membersGrid.innerHTML = paginatedItems.map((member, index) => `
-                <div class="member-card ${member.isCore ? 'is-core' : ''}" style="animation-delay: ${index * 50}ms">
+                <div class="member-card ${member.isCore ? 'is-core' : ''}" data-aos="fade-up" data-aos-delay="${index * 100}">
                     ${member.isCore ? '<div class="core-badge" title="Core Member">👑</div>' : ''}
                     <div class="card-content">
                         <div class="member-avatar">
@@ -666,7 +671,7 @@
                                     <i class="fab fa-linkedin-in"></i>
                                 </a>
                             </div>
-                            <button class="view-more-btn" data-member-id="${member.id}">
+                            <button class="view-more-btn hvr-grow" data-member-id="${member.id}">
                                 <span>View Contact Info</span>
                                 <i class="fas fa-chevron-down"></i>
                             </button>
@@ -694,6 +699,14 @@
             `).join('');
 
             renderPagination(totalPages, filteredList);
+
+            // Initialize Vanilla Tilt on newly rendered cards
+            VanillaTilt.init(document.querySelectorAll(".member-card"), {
+                max: 25,
+                speed: 400,
+                glare: true,
+                "max-glare": 0.5
+            });
         }
 
         function renderPagination(totalPages, fullList) {
@@ -790,6 +803,4 @@
     });
     </script>
 </body>
-
 </html>
-
