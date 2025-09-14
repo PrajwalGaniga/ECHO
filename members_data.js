@@ -502,10 +502,7 @@ let members = [
 ];
 
 
-let memberss = [
-    // Your existing 4 members here...
-    
-];
+
 
 
 members.sort((a, b) => a.usn.localeCompare(b.usn)); 
