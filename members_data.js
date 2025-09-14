@@ -484,7 +484,7 @@ let members = [
         id: 33,
         name: "Vinayak",
         usn: "4SN23IS032",
-        profilePic: "assets/images/members/23/ashika.jpg",
+        profilePic: "assets/images/members/23/vinayak.jpg",
         skills: ["JavaScript","React","UI/UX Design","C/C++","HTML/CSS","Node.js","SQL","NoSQL (e.g., MongoDB)"],
         hobbies: ["Gaming", "Reading"," Cooking","Music","Traveling","Sports (General)", "Movies/TV Shows"],
         isCore: true,
