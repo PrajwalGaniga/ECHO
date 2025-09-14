@@ -496,6 +496,40 @@ let members = [
         workshopsJoined: 0,
         eventsConducted: 0,
         workshopsConducted: 0
+    },
+    {
+        id: 34,
+        name: "Ashvitha",
+        usn: "4SN23IS002",
+        profilePic: "assets/images/members/23/aswitha.jpg",
+        skills: ["Python", "Java", "HTML/CSS"],
+        hobbies: ["Cooking", "Music", "Traveling", "Sports (General)", "Dancing", "Hiking/Trekking", "Movies/TV Shows"],
+        isCore: true,
+        currentYear: "3rd Year",
+        phone: "+91 7795112646",
+        email: "ashvithafernandes84@gmail.com",
+        linkedin: "",
+        eventsJoined: 0,
+        workshopsJoined: 0,
+        eventsConducted: 0,
+        workshopsConducted: 0
+    },
+      {
+        id: 34,
+        name: "Harshini P K",
+        usn: "4SN23IS007",
+        profilePic: "assets/images/members/23/aswitha.jpg",
+        skills: ["Python", "Java", "HTML/CSS"],
+        hobbies: ["Cooking", "Music", "Traveling", "Sports (General)", "Dancing", "Hiking/Trekking", "Movies/TV Shows"],
+        isCore: true,
+        currentYear: "3rd Year",
+        phone: "+91 8921466674",
+        email: "harshinipk26@gmail.com",
+        linkedin: "https://www.linkedin.com/in/vinayak-akkasaliga-1b52992ab?utm_source=share&utm_campaign=share_via&utm_content=profile&utm_medium=android_app",
+        eventsJoined: 0,
+        workshopsJoined: 0,
+        eventsConducted: 0,
+        workshopsConducted: 0
     }
    
    
