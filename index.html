@@ -302,11 +302,15 @@
             min-height: 500px;
             position: relative;
             z-index: 1;
+            overflow: hidden;
+            border-radius: 12px;
+            margin: 20px;
         }
         
         spline-viewer {
             width: 100%;
             height: 100%;
+            position: relative;
         }
         
         /* Watermark cover */
@@ -415,6 +419,10 @@
             .hero p {
                 font-size: 1.1rem;
             }
+            
+            .spline-container {
+                min-height: 450px;
+            }
         }
         
         @media (max-width: 768px) {
@@ -459,9 +467,15 @@
             
             .spline-container {
                 width: 100%;
-                min-height: 400px;
+                min-height: 350px;
+                height: 350px;
                 order: 1;
-                margin-bottom: 30px;
+                margin: 0 0 30px 0;
+                flex: none;
+            }
+            
+            spline-viewer {
+                height: 350px;
             }
             
             .watermark-cover {
@@ -501,6 +515,25 @@
             
             .progress-bar {
                 width: 250px;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .spline-container {
+                min-height: 300px;
+                height: 300px;
+            }
+            
+            spline-viewer {
+                height: 300px;
+            }
+            
+            .hero h1 {
+                font-size: 2rem;
+            }
+            
+            .hero p {
+                font-size: 1rem;
             }
         }
 
@@ -571,7 +604,6 @@
                 <!-- Right Spline -->
                 <div class="spline-container">
                     <spline-viewer url="https://prod.spline.design/YJ8luRuP8Dex0L6U/scene.splinecode"></spline-viewer>
-                    
                 </div>
             </section>
 
@@ -585,7 +617,7 @@
             <section class="section" id="member-spotlight">
                  <div class="container">
                     <h2 class="section-title">Top Active Member of the Month</h2>
-                    
+                    <div id="active-member-container"></div>
                 </div>
             </section>
         </main>
@@ -630,8 +662,9 @@
             // Mouse movement effect for Spline viewer
             const splineContainer = document.querySelector('.spline-container');
             
-            document.addEventListener('mousemove', (e) => {
-                if (window.innerWidth > 768 && splineContainer) {
+            // Only apply mouse effects on larger screens
+            if (window.innerWidth > 768 && splineContainer) {
+                document.addEventListener('mousemove', (e) => {
                     const mouseX = e.clientX / window.innerWidth;
                     const mouseY = e.clientY / window.innerHeight;
                     
@@ -645,28 +678,25 @@
                     
                     // Apply the transformation
                     splineContainer.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg)`;
-                }
-            });
-            
-            // Reset transformation when mouse leaves the document
-            document.addEventListener('mouseleave', () => {
-                if (splineContainer) {
+                });
+                
+                // Reset transformation when mouse leaves the document
+                document.addEventListener('mouseleave', () => {
                     splineContainer.style.transform = 'perspective(1000px) rotateX(0deg) rotateY(0deg)';
-                }
-            });
+                });
+            }
         });
 
 
         // --- DYNAMIC CONTENT SCRIPT ---
         const eventsData = [
-            { id: 4, title: 'Smart Inida Hackathon Hackathon 2025', description: 'A national-level event focused on solving real-world problems using technology. Open to all students.', thumbnail: '/ECHO/assets/images/events/sih.jpg' },
-            { id: 3, title: 'HackECHO 2025 - 48-Hour Hackathon', description: 'Our flagship event is back! Build, innovate, and compete for a massive prize pool right here on campus.', thumbnail: '' }, // No thumbnail for testing fallback
-        ];
+            { id: 4, title: 'Smart Inida Hackathon Hackathon 2025', description: 'A national-level event focused on solving real-world problems using technology. Open to all students.', thumbnail: 'assets/images/events_workshop/events/sih.jpg' }
+            ]
         const workshopsData = [
-            { id: 4, title: 'Advanced React & State Management', description: 'Deep dive into advanced React concepts, hooks, and state management libraries like Redux and Zustand.', thumbnail: 'https://images.unsplash.com/photo-1633356122544-f134324a6cee?w=500&q=80' },
+            { id: 4, title: 'Dhaarini Academy', description: 'Build your knowledge in Machine learning', thumbnail: 'assets/images/events_workshop/worksop/dhaarini.jpg' },
         ];
         const coreTeam = [
-            { id:1, name:"Prajwal", role:"President", profilePic:"/ECHO/assets/images/core/profile_prajwal.png", funFact:"Can code for 12 hours straight with just coffee ☕" },
+            { id:1, name:"Prajwal", role:"President", profilePic:"assets/images/core/profile_prajwal.png", funFact:"Can code for 12 hours straight with just coffee ☕" },
         ];
 
         // --- CONTENT RENDERING ---
@@ -709,7 +739,7 @@
                     <img src="${topMember.profilePic}" alt="${topMember.name}" class="member-pic">
                     <h3 class="member-name">${topMember.name}</h3>
                     <p class="member-role">${topMember.role}</p>
-                    <p class="fun-fact">"${topMember.funFact}"</p>
+                    <p class="member-fact">"${topMember.funFact}"</p>
                 </div>
             `;
         });
