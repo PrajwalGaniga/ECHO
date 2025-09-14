@@ -9,6 +9,6 @@ const instagramPosts = [
 ];
 
 const linkedinPosts = [
-    {thumbnail: 'assets/images/gallery/echo.jpg', title: 'ECHO Club LinkedIN Account"', description: 'We are thrilled to be recognized for our contributions to technical education and community building.', link: 'http://www.linkedin.com/in/echo-club-845580384'}
+    {thumbnail: 'assets/images/gallery/echo.jpg', title: 'ECHO Club LinkedIN Account', description: 'We are thrilled to be recognized for our contributions to technical education and community building.', link: 'http://www.linkedin.com/in/echo-club-845580384'}
     
 ];
